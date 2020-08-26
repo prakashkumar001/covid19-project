@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/appAlertDialogParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.cardview.widget.CardView android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.virus.covid19.textview.CustomTextView
+            android:id="@+id/hello_user"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Hello User"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="50dp"/>
+        <com.virus.covid19.textview.CustomTextView
+            android:id="@+id/welcome"
+            android:text="Welcome"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="50dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.virus.covid19.textview.CustomTextView
+            android:layout_width="wrap_content"
+            android:text="Select the listed Location"
+            android:layout_height="wrap_content"/>
+
+          <com.virus.covid19.utilities.TagGroup
+              android:id="@+id/tagGroup"
+              style="@style/TagGroup.Large"
+              app:atg_pressedBackgroundColor="@color/cardview_shadow_start_color"
+              app:atg_isAppendMode="true"
+              android:layout_marginTop="10dp"
+              />
+
+    </LinearLayout>
+
+</LinearLayout>
+</androidx.cardview.widget.CardView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

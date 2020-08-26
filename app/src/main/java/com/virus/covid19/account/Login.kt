@@ -15,12 +15,14 @@ import com.virus.covid19.database.AppDatabase
 import com.virus.covid19.database.AppExecutors
 import com.virus.covid19.database.entities.User
 import com.virus.covid19.home.HomeActivity
+import com.virus.covid19.location.UserLocationDialog
 import kotlinx.android.synthetic.main.activity_login.*
 
 
 class Login :AppCompatActivity(), View.OnClickListener{
     var fbHelper: FacebookLoginHelper? = null
     var googleLoginHelper: GoogleLoginHelper? = null
+    var TAG="Login"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -116,9 +118,10 @@ class Login :AppCompatActivity(), View.OnClickListener{
              user=AppDatabase.getInstance(this).userDao().getUserInfo(email.text.toString(),password.text.toString())
             if(user!=null)
             {
-                val intent = Intent(this@Login, HomeActivity::class.java)
+               /* val intent = Intent(this@Login, HomeActivity::class.java)
                 // start your next activity
-                startActivity(intent)
+                startActivity(intent)*/
+                showLocationDialog()
             }else{
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     Toast.makeText(this,"Invalid User or Password",Toast.LENGTH_SHORT).show()
@@ -127,6 +130,13 @@ class Login :AppCompatActivity(), View.OnClickListener{
 
         })
 
+
+    }
+
+    private fun showLocationDialog()
+    {
+        var userLocationDialog=UserLocationDialog(this)
+        userLocationDialog.show(supportFragmentManager,TAG)
 
     }
 }
