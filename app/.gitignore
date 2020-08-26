@@ -1,0 +1,14 @@
+-# Gradle files
+.gradle/
+
+-# Built application files
+app/build/
+build/
+
+-# Generated files
+.idea/
+Android.iml
+app/*.iml
+local.properties
+
+*.iml
