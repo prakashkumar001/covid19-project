@@ -14,5 +14,6 @@ class User {
     var pincode: String? = null
     var address: String? = null
     var password: String? = null
+    var isSocialLogin: Boolean? = null
 
 }

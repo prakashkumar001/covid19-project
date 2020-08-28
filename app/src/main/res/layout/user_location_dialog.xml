@@ -11,12 +11,11 @@
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
     app:cardCornerRadius="8dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+   >
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -46,22 +45,58 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical">
 
         <com.virus.covid19.textview.CustomTextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:text="Select the listed Location"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:layout_height="wrap_content"/>
 
           <com.google.android.material.chip.ChipGroup
               android:id="@+id/tagGroup"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginTop="10dp"
+              android:layout_margin="20dp"
               app:chipSpacing="8dp"
               app:singleSelection="true"
 
               />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+        <com.virus.covid19.textview.CustomTextView
+            android:layout_width="wrap_content"
+            android:text="Use Current Location"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/myloc"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/loc"/>
+
+
+            <com.virus.covid19.textview.CustomTextView
+                android:layout_width="match_parent"
+                android:text="Next"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_bg"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:layout_height="40dp"/>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -17,6 +17,10 @@ import com.virus.covid19.database.entities.User
 import com.virus.covid19.home.HomeActivity
 import com.virus.covid19.location.UserLocationDialog
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.email
+import kotlinx.android.synthetic.main.activity_login.password
+import kotlinx.android.synthetic.main.activity_login.signup
+import kotlinx.android.synthetic.main.activity_signup.*
 
 
 class Login :AppCompatActivity(), View.OnClickListener{
@@ -30,6 +34,8 @@ class Login :AppCompatActivity(), View.OnClickListener{
         google.setOnClickListener(this)
         signup.setOnClickListener(this)
         login.setOnClickListener(this)
+
+       // showLocationDialog()
 
     }
 
@@ -76,6 +82,10 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 ) {
                     val fbInfo = authToken as FBInfo
                     // showMessage(fbInfo.fname +fbInfo.email);
+                    AppExecutors.getInstance().diskIO().execute(Runnable {
+                        insertOrUpdateUser(fbInfo)
+                    })
+
                 }
 
                 override fun onSignOut() {}
@@ -99,7 +109,9 @@ class Login :AppCompatActivity(), View.OnClickListener{
                     user: String
                 ) {
                     val info = authToken as GoogleInfo
-
+                    AppExecutors.getInstance().diskIO().execute(Runnable {
+                        insertOrUpdateUser(info)
+                    })
                     // showMessage(info.email);
                 }
 
@@ -114,7 +126,6 @@ class Login :AppCompatActivity(), View.OnClickListener{
     fun getUser(){
         var user:User?=null
         AppExecutors.getInstance().networkIO().execute(Runnable {
-            var list=AppDatabase.getInstance(this).userDao().loadAllUser()
              user=AppDatabase.getInstance(this).userDao().getUserInfo(email.text.toString(),password.text.toString())
             if(user!=null)
             {
@@ -135,8 +146,69 @@ class Login :AppCompatActivity(), View.OnClickListener{
 
     private fun showLocationDialog()
     {
-        var userLocationDialog=UserLocationDialog(this)
+        var userLocationDialog=UserLocationDialog(this,"Prakash")
         userLocationDialog.show(supportFragmentManager,TAG)
+
+    }
+
+    private fun insertOrUpdateUser(obj:Any) {
+        var fbInfo: FBInfo? = null
+        var googleInfo: GoogleInfo? = null
+        var user: User? = null
+        if (obj is FBInfo) {
+            fbInfo = obj as FBInfo
+
+            user = AppDatabase.getInstance(this).userDao().loadUserByEmail(fbInfo?.email!!)
+            if (user == null) {
+                var userInfo = User()
+                userInfo.name = fbInfo.fname
+                userInfo.mobile = ""
+                userInfo.email = fbInfo.email
+                userInfo.address = ""
+                userInfo.password = fbInfo.id
+                userInfo.isSocialLogin=true
+
+                AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
+                AppExecutors.getInstance().mainThread().execute(Runnable {
+                    showLocationDialog()
+
+                })
+            } else {
+                AppExecutors.getInstance().mainThread().execute(Runnable {
+                    showLocationDialog()
+
+                })
+            }
+        } else if (obj is GoogleInfo) {
+            googleInfo = obj as GoogleInfo
+
+            user = AppDatabase.getInstance(this).userDao().loadUserByEmail(googleInfo?.email!!)
+            if (user == null) {
+                var userInfo = User()
+                userInfo.name = googleInfo.fname
+                userInfo.mobile = ""
+                userInfo.email = googleInfo?.email!!
+                userInfo.address = ""
+                userInfo.password = googleInfo?.accesstoken
+                userInfo.isSocialLogin=true
+
+                AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
+                AppExecutors.getInstance().mainThread().execute(Runnable {
+                    showLocationDialog()
+
+                })
+            } else {
+                AppExecutors.getInstance().mainThread().execute(Runnable {
+                    showLocationDialog()
+
+                })
+            }
+
+        } else {
+            return
+        }
+
+
 
     }
 }
