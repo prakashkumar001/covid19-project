@@ -53,12 +53,14 @@
             android:text="Select the listed Location"
             android:layout_height="wrap_content"/>
 
-          <com.virus.covid19.utilities.TagGroup
+          <com.google.android.material.chip.ChipGroup
               android:id="@+id/tagGroup"
-              style="@style/TagGroup.Large"
-              app:atg_pressedBackgroundColor="@color/cardview_shadow_start_color"
-              app:atg_isAppendMode="true"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
               android:layout_marginTop="10dp"
+              app:chipSpacing="8dp"
+              app:singleSelection="true"
+
               />
 
     </LinearLayout>
