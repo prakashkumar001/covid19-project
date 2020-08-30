@@ -3,5 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="user_location_dialog_width">343dp</dimen>
+    <dimen name="navigation_drawer_width">200dp</dimen>
 
 </resources>

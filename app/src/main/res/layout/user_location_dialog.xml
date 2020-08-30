@@ -88,6 +88,7 @@
 
 
             <com.virus.covid19.textview.CustomTextView
+                android:id="@+id/next"
                 android:layout_width="match_parent"
                 android:text="Next"
                 android:gravity="center"

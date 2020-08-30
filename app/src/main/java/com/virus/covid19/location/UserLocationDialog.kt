@@ -2,6 +2,7 @@ package com.virus.covid19.location
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -25,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.virus.covid19.R
+import com.virus.covid19.home.HomeActivity
 import com.virus.covid19.utilities.DeviceUtility
 import kotlinx.android.synthetic.main.user_location_dialog.*
 import java.util.*
@@ -45,6 +47,8 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
     var fusedLocationProviderClient: FusedLocationProviderClient? = null
     var myLoc:AppCompatImageView?=null
     var hello_user:AppCompatTextView?=null
+    var next:AppCompatTextView?=null
+
     private val REQUEST_CODE = 200
 
     override fun onCreateView(
@@ -56,8 +60,11 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
         tagGroup=rootView.findViewById(R.id.tagGroup)
         myLoc=rootView.findViewById(R.id.myloc)
         hello_user=rootView.findViewById(R.id.hello_user)
+        next=rootView.findViewById(R.id.next)
+
         hello_user?.text="Hello "+username
         myLoc?.setOnClickListener(this)
+        next?.setOnClickListener(this)
         addTagsToGroup()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity!!);
         fetchLastlocation();
@@ -99,6 +106,11 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
         if(v == myloc)
         {
             fetchLastlocation()
+        }else if(v == next)
+        {
+             val intent = Intent(activity, HomeActivity::class.java)
+                // start your next activity
+                startActivity(intent)
         }
 
     }

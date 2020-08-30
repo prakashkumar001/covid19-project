@@ -6,5 +6,7 @@
     <string name="signup_link">New User? </string>
     <string name="signup"> Signup</string>
     <string name="copyright">\u00A9 2020 copyright all rights reserved</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>
