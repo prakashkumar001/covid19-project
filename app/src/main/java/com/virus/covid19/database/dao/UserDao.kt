@@ -1,4 +1,4 @@
-package com.virus.covid19.database
+package com.virus.covid19.database.dao
 
 import androidx.room.*
 import com.virus.covid19.database.entities.User
@@ -6,7 +6,7 @@ import com.virus.covid19.database.entities.User
 
 @Dao
 interface UserDao {
-        @Query("SELECT * FROM User ORDER BY ID")
+        @Query("SELECT * FROM user ORDER BY ID")
         fun loadAllUser(): List<User?>?
 
         @Insert
@@ -18,12 +18,15 @@ interface UserDao {
         @Delete
         fun delete(user: User?)
 
-        @Query("SELECT * FROM User WHERE id = :id")
+        @Query("SELECT * FROM user WHERE id = :id")
         fun loadUserById(id: Int): User?
 
-        @Query("SELECT * FROM User WHERE email = :email")
+        @Query("SELECT * FROM user WHERE email = :email")
         fun loadUserByEmail(email: String): User?
 
-        @Query("SELECT * FROM User WHERE email = :email AND password = :password")
+        @Query("SELECT * FROM user WHERE email = :email AND password = :password")
         fun getUserInfo(email: String,password: String): User?
+
+        @Query("SELECT * FROM user WHERE email = :email AND isSocialLogin = :issocial")
+        fun getUserInfo(email: String,issocial: Boolean): User?
 }

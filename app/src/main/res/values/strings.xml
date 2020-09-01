@@ -8,5 +8,6 @@
     <string name="copyright">\u00A9 2020 copyright all rights reserved</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="press_again">Press again to Exit</string>
 
 </resources>

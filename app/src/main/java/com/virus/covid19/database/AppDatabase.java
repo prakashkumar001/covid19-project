@@ -8,10 +8,15 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.virus.covid19.database.dao.ProductDao;
+import com.virus.covid19.database.dao.ShopsDao;
+import com.virus.covid19.database.dao.UserDao;
+import com.virus.covid19.database.entities.Product;
+import com.virus.covid19.database.entities.Shops;
 import com.virus.covid19.database.entities.User;
 
 
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Shops.class, Product.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
     private static final Object LOCK = new Object();
@@ -32,4 +37,7 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract UserDao userDao();
+    public abstract ShopsDao shopsDao();
+    public abstract ProductDao productDao();
+
 }

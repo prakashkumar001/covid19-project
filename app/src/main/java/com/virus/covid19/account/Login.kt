@@ -1,7 +1,10 @@
 package com.virus.covid19.account
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,16 +14,14 @@ import com.example.socialauth.google.GoogleInfo
 import com.example.socialauth.google.GoogleLoginHelper
 import com.example.socialauth.result.SocialResultListener
 import com.virus.covid19.R
+import com.virus.covid19.application.GlobalClass
 import com.virus.covid19.database.AppDatabase
 import com.virus.covid19.database.AppExecutors
 import com.virus.covid19.database.entities.User
-import com.virus.covid19.home.HomeActivity
 import com.virus.covid19.location.UserLocationDialog
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.email
-import kotlinx.android.synthetic.main.activity_login.password
-import kotlinx.android.synthetic.main.activity_login.signup
-import kotlinx.android.synthetic.main.activity_signup.*
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 class Login :AppCompatActivity(), View.OnClickListener{
@@ -36,7 +37,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
         login.setOnClickListener(this)
 
        // showLocationDialog()
-
+        getKeyHash()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -132,6 +133,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
                /* val intent = Intent(this@Login, HomeActivity::class.java)
                 // start your next activity
                 startActivity(intent)*/
+                GlobalClass.getInstance()!!.userInfo=user!!
                 showLocationDialog()
             }else{
                 AppExecutors.getInstance().mainThread().execute(Runnable {
@@ -165,20 +167,24 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 userInfo.mobile = ""
                 userInfo.email = fbInfo.email
                 userInfo.address = ""
+                userInfo.profileImage="https://graph.facebook.com/"+fbInfo.id+"/picture?type=large"
                 userInfo.password = fbInfo.id
                 userInfo.isSocialLogin=true
 
                 AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
+
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     showLocationDialog()
 
                 })
             } else {
+
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     showLocationDialog()
 
                 })
             }
+
         } else if (obj is GoogleInfo) {
             googleInfo = obj as GoogleInfo
 
@@ -189,6 +195,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 userInfo.mobile = ""
                 userInfo.email = googleInfo?.email!!
                 userInfo.address = ""
+                userInfo.profileImage=googleInfo?.profileUrl
                 userInfo.password = googleInfo?.accesstoken
                 userInfo.isSocialLogin=true
 
@@ -210,5 +217,22 @@ class Login :AppCompatActivity(), View.OnClickListener{
 
 
 
+    }
+
+   fun getKeyHash()
+    {
+        try {
+            val info = packageManager.getPackageInfo(
+                "com.virus.covid19",
+                PackageManager.GET_SIGNATURES
+            )
+            for (signature in info.signatures) {
+                val md: MessageDigest = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT))
+            }
+        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NoSuchAlgorithmException) {
+        }
     }
 }

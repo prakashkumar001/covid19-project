@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_margin="10dp"
+    android:background="?attr/selectableItemBackground">
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/cart_image"
+        android:layout_height="100dp" />
+    <com.virus.covid19.textview.CustomTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="HAHAH"
+        android:layout_gravity="center"
+        android:textSize="22sp"
+        app:font_name="montserrat_Regular"
+        android:layout_marginLeft="16dp"/>
+</LinearLayout>

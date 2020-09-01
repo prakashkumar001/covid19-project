@@ -111,6 +111,7 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
              val intent = Intent(activity, HomeActivity::class.java)
                 // start your next activity
                 startActivity(intent)
+                activity?.finish()
         }
 
     }

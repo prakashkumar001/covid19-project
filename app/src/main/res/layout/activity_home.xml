@@ -20,12 +20,32 @@
         android:orientation="vertical"
 
         >
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="150dp"
-            android:scaleType="fitXY"
+    <LinearLayout
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="150dp"
+        android:background="#ccc"
+        android:gravity="center"
+        android:orientation="vertical"
+
+        >
+        <com.virus.covid19.utilities.CircleImage
+            android:id="@+id/profileimage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
             android:src="@drawable/user_pic"
             />
+
+        <com.virus.covid19.textview.CustomTextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="18sp"
+            app:font_name="montserrat_Regular"
+            />
+    </LinearLayout>
 
         <!-- Navigation Drawer-->
         <androidx.recyclerview.widget.RecyclerView
