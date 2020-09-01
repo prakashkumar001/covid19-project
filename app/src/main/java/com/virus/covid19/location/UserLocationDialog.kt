@@ -6,10 +6,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.*
 import android.widget.Toast
@@ -20,8 +20,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.view.get
 import androidx.fragment.app.DialogFragment
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -29,12 +28,18 @@ import com.virus.covid19.R
 import com.virus.covid19.home.HomeActivity
 import com.virus.covid19.utilities.DeviceUtility
 import kotlinx.android.synthetic.main.user_location_dialog.*
+import org.jetbrains.anko.wrapContent
 import java.util.*
 import kotlin.collections.ArrayList
-import org.jetbrains.anko.wrapContent
 
 
 class UserLocationDialog : DialogFragment,View.OnClickListener {
+    var mLocationRequest:LocationRequest?=null
+    var mLocationCallback:LocationCallback?=null
+
+    private val UPDATE_INTERVAL = 10 * 1000 /* 10 secs */.toLong()
+    private val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
+
     constructor(context: Context, username: String) : super() {
         this.tagList = ArrayList<String>()
         this.username=username
@@ -42,8 +47,6 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
     var username:String?=null
     var tagGroup: ChipGroup?=null
     var tagList:ArrayList<String>
-    var selectedLocation:String?=null
-    var currentLocation: Location? = null
     var fusedLocationProviderClient: FusedLocationProviderClient? = null
     var myLoc:AppCompatImageView?=null
     var hello_user:AppCompatTextView?=null
@@ -67,7 +70,7 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
         next?.setOnClickListener(this)
         addTagsToGroup()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity!!);
-        fetchLastlocation();
+        startLocationUpdates()
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.attributes?.windowAnimations = R.style.PopUpDialogAnimation
@@ -105,7 +108,8 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
     override fun onClick(v: View?) {
         if(v == myloc)
         {
-            fetchLastlocation()
+            //fetchLastlocation()
+            startLocationUpdates()
         }else if(v == next)
         {
              val intent = Intent(activity, HomeActivity::class.java)
@@ -148,15 +152,6 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE);
             return;
         }
-         var task= fusedLocationProviderClient?.getLastLocation();
-       task?.addOnSuccessListener(OnSuccessListener{
-           if(it!=null)
-           {
-               getCompleteAddress(it.latitude,it.longitude)
-               Log.e(it.latitude.toString(),"==="+it.longitude.toString())
-           }
-
-       })
 
     }
 
@@ -170,7 +165,7 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
              REQUEST_CODE ->
 
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    fetchLastlocation();
+                    startLocationUpdates();
                 }
         }
     }
@@ -199,4 +194,81 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
         }
     }
 
+    // Trigger new location updates at interval
+    protected fun startLocationUpdates() {
+
+        // Create the location request to start receiving updates
+        mLocationRequest = LocationRequest()
+        mLocationRequest?.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        mLocationRequest?.setInterval(UPDATE_INTERVAL)
+        mLocationRequest?.setFastestInterval(FASTEST_INTERVAL)
+
+        // Create LocationSettingsRequest object using location request
+        val builder: LocationSettingsRequest.Builder = LocationSettingsRequest.Builder()
+        builder.addLocationRequest(mLocationRequest!!)
+        val locationSettingsRequest: LocationSettingsRequest = builder.build()
+
+        // Check whether location settings are satisfied
+        // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
+        val settingsClient: SettingsClient = LocationServices.getSettingsClient(activity!!)
+        settingsClient.checkLocationSettings(locationSettingsRequest)
+
+        // new Google API SDK v11 uses getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                activity!!,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                activity!!,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+
+        mLocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                onLocationChanged(locationResult.getLastLocation())
+            }
+        }
+        fusedLocationProviderClient?.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+
+    fun onLocationChanged(location: Location) {
+        // New location has now been determined
+        if(location!=null){
+            getCompleteAddress(location.latitude,location.longitude)
+            removeLocationUpdates()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (fusedLocationProviderClient != null && mLocationCallback!=null) {
+            fusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (fusedLocationProviderClient != null && mLocationCallback!=null) {
+            fusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
+        }
+    }
+
+    fun removeLocationUpdates()
+    {
+        if (fusedLocationProviderClient != null && mLocationCallback!=null) {
+            fusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
+        }
+    }
 }
