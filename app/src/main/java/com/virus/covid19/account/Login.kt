@@ -1,11 +1,13 @@
 package com.virus.covid19.account
 
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.socialauth.facebook.FBInfo
@@ -18,7 +20,10 @@ import com.virus.covid19.application.GlobalClass
 import com.virus.covid19.database.AppDatabase
 import com.virus.covid19.database.AppExecutors
 import com.virus.covid19.database.entities.User
+import com.virus.covid19.gmail.MailSender
 import com.virus.covid19.location.UserLocationDialog
+import com.virus.covid19.textview.CustomEditText
+import com.virus.covid19.textview.CustomTextView
 import kotlinx.android.synthetic.main.activity_login.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -35,6 +40,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
         google.setOnClickListener(this)
         signup.setOnClickListener(this)
         login.setOnClickListener(this)
+        forgotpassword.setOnClickListener(this)
 
        // showLocationDialog()
         getKeyHash()
@@ -67,6 +73,9 @@ class Login :AppCompatActivity(), View.OnClickListener{
         {
             getUser()
 
+        }else if(v == forgotpassword)
+        {
+            showForgetPasswordDialog()
         }
     }
 
@@ -234,5 +243,52 @@ class Login :AppCompatActivity(), View.OnClickListener{
         } catch (e: PackageManager.NameNotFoundException) {
         } catch (e: NoSuchAlgorithmException) {
         }
+    }
+
+    fun showForgetPasswordDialog()
+    {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.forget_pass)
+        var email: CustomEditText = dialog.findViewById(R.id.email) as CustomEditText
+
+        var dialogSubmit: CustomTextView = dialog.findViewById(R.id.submit) as CustomTextView
+        var dialogCancel: CustomTextView = dialog.findViewById(R.id.cancel) as CustomTextView
+
+                dialogCancel.setOnClickListener(View.OnClickListener {
+                    dialog.dismiss()
+                })
+
+        dialogSubmit.setOnClickListener(View.OnClickListener {
+            AppExecutors.getInstance().diskIO().execute(
+                Runnable {
+                    var user = AppDatabase.getInstance(this).userDao()
+                        .loadUserByEmail(email.text.toString())
+                    if (user != null && user.password!=null && !user.isSocialLogin!!) {
+                        Thread(Runnable {
+                            try {
+                                val sender = MailSender(
+                                    "akshav00@gmail.com",
+                                    ""
+                                )
+                                sender.sendMail(
+                                    "This is a test subject", "Your Password is : "+user.password,
+                                    "akshav00@gmail.com", user.email
+                                )
+                            } catch (e: Exception) {
+                                Log.e("SendMail", e.message, e)
+                            }
+                        }).start()
+                    }else
+                    {
+                        Toast.makeText(this,"Please enter valid email",Toast.LENGTH_SHORT).show()
+                    }
+                })
+        })
+
+
+        dialog.show()
+
     }
 }

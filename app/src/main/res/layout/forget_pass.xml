@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <com.virus.covid19.textview.CustomEditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:hint="Enter email id">
+
+    </com.virus.covid19.textview.CustomEditText>
+
+    <com.virus.covid19.textview.CustomTextView
+        android:id="@+id/submit"
+
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textSize="16dp"
+        android:ems="8"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:background="@drawable/round_button"
+        android:text="Submit"/>
+
+    <com.virus.covid19.textview.CustomTextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:ems="9"
+        android:gravity="center"
+        android:background="@drawable/cancel_border"
+        android:text="Cancel"/>
+
+</LinearLayout>

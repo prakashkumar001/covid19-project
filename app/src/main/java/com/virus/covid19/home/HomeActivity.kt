@@ -1,6 +1,8 @@
 package com.virus.covid19.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,7 @@ import com.virus.covid19.database.entities.Product
 import com.virus.covid19.database.entities.Shops
 import com.virus.covid19.fragments.Home
 import com.virus.covid19.model.DrawerItem
+import com.virus.covid19.payment.CartPage
 import com.virus.covid19.textview.CustomTextView
 import com.virus.covid19.viewholder.DrawerAdapter
 import kotlinx.android.synthetic.main.activity_home.*
@@ -52,7 +55,10 @@ class HomeActivity : AppCompatActivity() {
             }
         })
         selectFirstItemAsDefault()
-
+        cartRelativeLayout.setOnClickListener(View.OnClickListener {
+            var intent= Intent(HomeActivity@this,CartPage::class.java)
+            startActivity(intent)
+        })
 
     }
 
@@ -69,7 +75,6 @@ class HomeActivity : AppCompatActivity() {
         navigationList.add(DrawerItem("Home",R.drawable.cart_icon))
         navigationList.add(DrawerItem("My Profile",R.drawable.cart_icon))
         navigationList.add(DrawerItem("My Orders",R.drawable.cart_icon))
-        navigationList.add(DrawerItem("Change Password",R.drawable.cart_icon))
         navigationList.add(DrawerItem("Log Out",R.drawable.cart_icon))
 
 

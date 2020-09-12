@@ -1,6 +1,7 @@
 package com.virus.covid19.viewholder;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,9 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.virus.covid19.R;
+import com.virus.covid19.account.Login;
+import com.virus.covid19.database.AppDatabase;
+import com.virus.covid19.database.AppExecutors;
+import com.virus.covid19.database.entities.User;
 import com.virus.covid19.fragments.Home;
 import com.virus.covid19.model.DrawerItem;
 
@@ -40,6 +46,34 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
 
       // holder.title.setTypeface(fonts);
        holder.title.setText(drawerList.get(position).getTitle());
+       holder.itemView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               if(position==3)
+               {
+                   AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                       @Override
+                       public void run() {
+
+                           List<User> user= AppDatabase.getInstance(context).userDao().loadAllUser();
+                           if(user.size()>0)
+                           {
+                               for(int i=0;i<user.size();i++)
+                               {
+                                   User user1=user.get(i);
+                                   user1.setLogOut(true);
+                                   AppDatabase.getInstance(context).userDao().updatePerson(user1);
+                               }
+                               Intent intent=new Intent(context, Login.class);
+                               context.startActivity(intent);
+                               ActivityCompat.finishAffinity(context);
+                           }
+
+                       }
+                   });
+               }
+           }
+       });
 
    }  
    @Override  

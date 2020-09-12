@@ -17,5 +17,6 @@ class User {
     var address: String? = null
     var password: String? = null
     var isSocialLogin: Boolean? = null
+    var logOut: Boolean? = false
 
 }

@@ -1,41 +1,42 @@
 package com.virus.covid19.payment
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
-import android.widget.Button
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
-import com.razorpay.sampleapp.R
+import com.virus.covid19.R
+import com.virus.covid19.application.GlobalClass
+import com.virus.covid19.viewholder.CartViewAdapter
+import kotlinx.android.synthetic.main.activity_cart.*
+import kotlinx.android.synthetic.main.fragment_shop.view.*
 import org.json.JSONObject
 import java.lang.Exception
 
-class PaymentActivity: Activity(), PaymentResultListener {
+class CartPage :AppCompatActivity(), PaymentResultListener {
 
-    val TAG:String = PaymentActivity::class.toString()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_payment)
-        /*
-        * To ensure faster loading of the Checkout form,
-        * call this method as early as possible in your checkout flow
-        * */
+        setContentView(R.layout.activity_cart)
         Checkout.preload(applicationContext)
 
-        var button: Button = findViewById(R.id.btn_pay)
-        button.setOnClickListener {
-            startPayment()
-        }
+        cart_view.layoutManager= LinearLayoutManager(this)
+        cart_view.adapter=CartViewAdapter(this,GlobalClass.cartList)
+        proceed.setOnClickListener(View.OnClickListener {
+           startPayment()
+        })
     }
 
     private fun startPayment() {
         /*
         *  You need to pass current activity in order to let Razorpay create CheckoutActivity
         * */
-        val activity:Activity = this
+        val activity: Activity = this
         val co = Checkout()
 
         try {
@@ -54,26 +55,24 @@ class PaymentActivity: Activity(), PaymentResultListener {
             options.put("prefill",prefill)
             co.open(activity,options)
         }catch (e: Exception){
-            Toast.makeText(activity,"Error in payment: "+ e.message,Toast.LENGTH_LONG).show()
+            Toast.makeText(activity,"Error in payment: "+ e.message, Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
     }
 
     override fun onPaymentError(errorCode: Int, response: String?) {
         try{
-            Toast.makeText(this,"Payment failed $errorCode \n $response",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Payment failed $errorCode \n $response", Toast.LENGTH_LONG).show()
         }catch (e: Exception){
-            Log.e(TAG,"Exception in onPaymentSuccess", e)
+            Log.e("Exception in onPaymentSuccess","Exception in onPaymentSuccess", e)
         }
     }
 
     override fun onPaymentSuccess(razorpayPaymentId: String?) {
         try{
-            Toast.makeText(this,"Payment Successful $razorpayPaymentId",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Payment Successful $razorpayPaymentId", Toast.LENGTH_LONG).show()
         }catch (e: Exception){
-            Log.e(TAG,"Exception in onPaymentSuccess", e)
+            Log.e("Exception in onPaymentSuccess","Exception in onPaymentSuccess", e)
         }
     }
-
-
 }

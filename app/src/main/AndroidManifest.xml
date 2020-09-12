@@ -29,7 +29,12 @@
         <activity android:name=".home.HomeActivity"/>
         <activity android:name=".account.SignUp"/>
         <activity android:name=".account.Login"/>
-
+        <!-- Add your API key here -->
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_uC45gK0niSFuK4"
+            />
+        <activity android:name=".payment.CartPage"/>
     </application>
 
 </manifest>
