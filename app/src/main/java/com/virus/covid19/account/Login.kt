@@ -6,8 +6,10 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.socialauth.facebook.FBInfo
@@ -251,6 +253,12 @@ class Login :AppCompatActivity(), View.OnClickListener{
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.forget_pass)
+        val lp: WindowManager.LayoutParams = WindowManager.LayoutParams()
+        lp.copyFrom(dialog.window!!.attributes)
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.gravity = Gravity.CENTER
+        dialog.getWindow()?.setAttributes(lp);
         var email: CustomEditText = dialog.findViewById(R.id.email) as CustomEditText
 
         var dialogSubmit: CustomTextView = dialog.findViewById(R.id.submit) as CustomTextView
