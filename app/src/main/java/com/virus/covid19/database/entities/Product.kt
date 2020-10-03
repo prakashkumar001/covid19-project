@@ -19,6 +19,7 @@ class Product constructor() {
         this.product_type = product_type
     }
 
+
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
     var shop_id: String? = null
@@ -27,6 +28,7 @@ class Product constructor() {
     var qty: String? = null
     var product_desc: String? = null
     var product_type: String? = null
+    var product_image: String? = null
 
 
 }

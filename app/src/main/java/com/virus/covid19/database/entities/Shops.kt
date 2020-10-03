@@ -10,4 +10,7 @@ class Shops {
     var id: Int = 0
     var shopName: String? = null
     var shopType:String?=null
+    var shopImageUrl:String?=null
+    var shopBgColor:String?=null
+
 }

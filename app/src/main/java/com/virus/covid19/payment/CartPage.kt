@@ -1,7 +1,6 @@
 package com.virus.covid19.payment
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,9 +13,7 @@ import com.virus.covid19.R
 import com.virus.covid19.application.GlobalClass
 import com.virus.covid19.viewholder.CartViewAdapter
 import kotlinx.android.synthetic.main.activity_cart.*
-import kotlinx.android.synthetic.main.fragment_shop.view.*
 import org.json.JSONObject
-import java.lang.Exception
 
 class CartPage :AppCompatActivity(), PaymentResultListener {
 
@@ -46,7 +43,8 @@ class CartPage :AppCompatActivity(), PaymentResultListener {
             //You can omit the image option to fetch the image from dashboard
             options.put("image","https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
             options.put("currency","INR")
-            options.put("amount","100")
+            var total=getAmount(100.00)
+            options.put("amount",total.toString())
 
             val prefill = JSONObject()
             prefill.put("email","test@razorpay.com")
@@ -74,5 +72,16 @@ class CartPage :AppCompatActivity(), PaymentResultListener {
         }catch (e: Exception){
             Log.e("Exception in onPaymentSuccess","Exception in onPaymentSuccess", e)
         }
+    }
+
+    fun getAmount(totalAmount:Double):Long
+    {
+        var rs = totalAmount
+        val paise1: Double
+        val paise2: Double
+
+        paise1 = rs * 100
+        println("Rs." + rs + " = " + paise1.toLong() + " paise")
+        return paise1.toLong()
     }
 }

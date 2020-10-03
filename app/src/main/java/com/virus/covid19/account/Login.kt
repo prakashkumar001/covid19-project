@@ -278,7 +278,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
                             try {
                                 val sender = MailSender(
                                     "akshav00@gmail.com",
-                                    ""
+                                    "Baiu123@"
                                 )
                                 sender.sendMail(
                                     "This is a test subject", "Your Password is : "+user.password,

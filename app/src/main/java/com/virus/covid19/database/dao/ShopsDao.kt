@@ -24,5 +24,7 @@ interface ShopsDao {
     @Query("SELECT * FROM shops WHERE id = :id")
     fun loadShopById(id: Int): Shops?
 
+    @Query("SELECT * FROM shops WHERE shopName = :shopname")
+    fun getShopByName(shopname:String): Shops?
 
 }

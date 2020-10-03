@@ -16,6 +16,7 @@ import com.virus.covid19.database.entities.Product
 import com.virus.covid19.database.entities.Shops
 import com.virus.covid19.fragments.Home
 import com.virus.covid19.model.DrawerItem
+import com.virus.covid19.model.ShopDetail
 import com.virus.covid19.payment.CartPage
 import com.virus.covid19.textview.CustomTextView
 import com.virus.covid19.viewholder.DrawerAdapter
@@ -84,106 +85,115 @@ class HomeActivity : AppCompatActivity() {
     private fun addDataIntoDB()
     {
         AppExecutors.getInstance().diskIO().execute(Runnable {
-            var grocery=ArrayList<String>()
-            grocery.add("Nilgris")
-            grocery.add("Global")
-            grocery.add("Nature Stores")
-            grocery.add("Snack Paradise")
-            grocery.add("Reliance Super Market")
+            var grocery=ArrayList<ShopDetail>()
+            grocery.add(ShopDetail("Nilgris","https://th.thgim.com/migration_catalog/article10983021.ece/ALTERNATES/FREE_660/Nil"))
+            grocery.add(ShopDetail("Global","https://media-exp1.licdn.com/dms/image/C4D0BAQGBO2-ay1Jz0w/company-logo_200_200/0?e=2159024400&v=beta&t=4bi8yf7qmVvLbdxLY9GTSIy2yt_P_TmAfoa6NeNUi3Y"))
+            grocery.add(ShopDetail("Nature Stores","https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/7/6/4/6/2576467-1-eng-GB/US-market-can-support-at-least-1-100-Natural-Grocers-by-Vitamin-Cottage-stores-says-IPO-filing_wrbm_large.jpg"))
+            grocery.add(ShopDetail("Snack Paradise","https://media.istockphoto.com/photos/group-of-sweet-and-salty-snacks-perfect-for-binge-watching-picture-id1149135424"))
+            grocery.add(ShopDetail("Reliance Super Market","https://content.jdmagicbox.com/comp/vadodara/k6/0265px265.x265.140402182816.y1k6/catalogue/reliance-market-undera-vadodara-grocery-wholesalers-1dilhbi.jpg"))
 
             for(i in 0 until grocery.size)
             {
                 /*Add shops to table*/
                 var shop=Shops()
-                shop.shopName=grocery.get(i)
+                shop.shopName=grocery.get(i).product_name
                 shop.shopType="Grocery Shops"
+                shop.shopBgColor="#FFFFFF"
+                shop.shopImageUrl=grocery.get(i).product_image
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
 
-            var saloon=ArrayList<String>()
-            saloon.add("Tony & Guy")
-            saloon.add("Naturals")
-            saloon.add("Green Trends")
-            saloon.add("City Saloon")
-            saloon.add("Scissors & Razors")
-            saloon.add("Beauty Hair Saloon")
+            var saloon=ArrayList<ShopDetail>()
+            saloon.add(ShopDetail("Tony & Guy",""))
+            saloon.add(ShopDetail("Naturals",""))
+            saloon.add(ShopDetail("Green Trends",""))
+            saloon.add(ShopDetail("City Saloon",""))
+            saloon.add(ShopDetail("Scissors & Razors",""))
+            saloon.add(ShopDetail("Beauty Hair Saloon",""))
 
             for(i in 0 until saloon.size)
             {
                 /*Add shops to table*/
                 var shop=Shops()
-                shop.shopName=saloon.get(i)
+                shop.shopName=saloon.get(i).product_name
                 shop.shopType="Saloon"
+                shop.shopBgColor="#FFFFFF"
+                shop.shopImageUrl=saloon.get(i).product_image
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
 
 
 
-            var medicals=ArrayList<String>()
-            medicals.add("Apollo Pharmacy")
-            medicals.add("Public Pharmacy")
-            medicals.add("Vista Pharmacy")
-            medicals.add("Stanley's Pharmacy")
-            medicals.add("Joseph Medicals")
-            medicals.add("KMC Medicals")
+            var medicals=ArrayList<ShopDetail>()
+            medicals.add(ShopDetail("Apollo Pharmacy",""))
+            medicals.add(ShopDetail("Public Pharmacy",""))
+            medicals.add(ShopDetail("Vista Pharmacy",""))
+            medicals.add(ShopDetail("Stanley's Pharmacy",""))
+            medicals.add(ShopDetail("Joseph Medicals",""))
+            medicals.add(ShopDetail("KMC Medicals",""))
 
 
             for(i in 0 until medicals.size)
             {
                 /*Add shops to table*/
                 var shop=Shops()
-                shop.shopName=medicals.get(i)
+                shop.shopName=medicals.get(i).product_name
                 shop.shopType="Medicals"
+                shop.shopBgColor="#FFFFFF"
+                shop.shopImageUrl=medicals.get(i).product_image
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
 
 
 
-            var hotel=ArrayList<String>()
-            hotel.add("Saravana Bhavan")
-            hotel.add("Sea Shell")
-            hotel.add("Thalapakatti")
-            hotel.add("Kannapa")
-            hotel.add("Banna Leaf")
-            hotel.add("KFC")
-            hotel.add("Dominos")
-
+            var hotel=ArrayList<ShopDetail>()
+            hotel.add(ShopDetail("Saravana Bhavan",""))
+            hotel.add(ShopDetail("Sea Shell",""))
+            hotel.add(ShopDetail("Thalapakatti",""))
+            hotel.add(ShopDetail("Kannapa",""))
+            hotel.add(ShopDetail("Banna Leaf",""))
+            hotel.add(ShopDetail("KFC",""))
+            hotel.add(ShopDetail("Dominos",""))
 
             for(i in 0 until hotel.size)
             {
                 /*Add shops to table*/
                 var shop=Shops()
-                shop.shopName=hotel.get(i)
+                shop.shopName=hotel.get(i).product_name
                 shop.shopType="Hotels"
+                shop.shopBgColor="#FFFFFF"
+                shop.shopImageUrl=hotel.get(i).product_image
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
 
-            var physio=ArrayList<String>()
-            hotel.add("SRM Hospital")
-            hotel.add("SRV Physio")
-            hotel.add("Physiotheraphy and card")
+            var physio=ArrayList<ShopDetail>()
+            hotel.add(ShopDetail("SRM Hospital",""))
+            hotel.add(ShopDetail("SRV Physio",""))
+            hotel.add(ShopDetail("Physiotheraphy and card",""))
 
             for(i in 0 until physio.size)
             {
                 /*Add shops to table*/
                 var shop=Shops()
-                shop.shopName=physio.get(i)
+                shop.shopName=physio.get(i).product_name
                 shop.shopType="Physiotherapist"
+                shop.shopBgColor="#FFFFFF"
+                shop.shopImageUrl=physio.get(i).product_image
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
 
-            var vegetables=ArrayList<String>()
-            vegetables.add("Garden Roots")
-            vegetables.add("SRR Vegetable Market")
-            vegetables.add("At your door Market")
-            vegetables.add("Muruyan Vegetable Shop")
-            vegetables.add("Diamond Vegetable Market")
-            vegetables.add("AVC Vegetable Market")
+            var vegetables=ArrayList<ShopDetail>()
+            vegetables.add(ShopDetail("Garden Roots",""))
+            vegetables.add(ShopDetail("SRR Vegetable Market",""))
+            vegetables.add(ShopDetail("At your door Market",""))
+            vegetables.add(ShopDetail("Muruyan Vegetable Shop",""))
+            vegetables.add(ShopDetail("Diamond Vegetable Market",""))
+            vegetables.add(ShopDetail("AVC Vegetable Market",""))
 
 
 
@@ -191,8 +201,10 @@ class HomeActivity : AppCompatActivity() {
             {
                 /*Add shops to table*/
                 var shop=Shops()
-                shop.shopName=vegetables.get(i)
+                shop.shopName=vegetables.get(i).product_name
                 shop.shopType="Vegetable Shops"
+                shop.shopBgColor="#FFFFFF"
+                shop.shopImageUrl=vegetables.get(i).product_image
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
