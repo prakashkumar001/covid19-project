@@ -85,11 +85,11 @@ class HomeActivity : AppCompatActivity() {
     {
         AppExecutors.getInstance().diskIO().execute(Runnable {
             var grocery=ArrayList<String>()
-            grocery.add("Kannan Grocery")
-            grocery.add("Reliance Fresh market")
-            grocery.add("Anjali Grocery")
-            grocery.add("RJ Maligai")
-            grocery.add("Arun Grocery")
+            grocery.add("Nilgris")
+            grocery.add("Global")
+            grocery.add("Nature Stores")
+            grocery.add("Snack Paradise")
+            grocery.add("Reliance Super Market")
 
             for(i in 0 until grocery.size)
             {
@@ -102,11 +102,12 @@ class HomeActivity : AppCompatActivity() {
 
 
             var saloon=ArrayList<String>()
-            saloon.add("Black & White Saloon")
-            saloon.add("Black Color Saloon")
-            saloon.add("Anbu Saloon")
-            saloon.add("Hair Saloon & SPA")
-            saloon.add("Unisex Saloon")
+            saloon.add("Tony & Guy")
+            saloon.add("Naturals")
+            saloon.add("Green Trends")
+            saloon.add("City Saloon")
+            saloon.add("Scissors & Razors")
+            saloon.add("Beauty Hair Saloon")
 
             for(i in 0 until saloon.size)
             {
@@ -121,10 +122,13 @@ class HomeActivity : AppCompatActivity() {
 
 
             var medicals=ArrayList<String>()
-            medicals.add("Apollo Medicals")
+            medicals.add("Apollo Pharmacy")
+            medicals.add("Public Pharmacy")
+            medicals.add("Vista Pharmacy")
+            medicals.add("Stanley's Pharmacy")
+            medicals.add("Joseph Medicals")
             medicals.add("KMC Medicals")
-            medicals.add("Meenakshi Medicals")
-            medicals.add("Savitha Medicals")
+
 
             for(i in 0 until medicals.size)
             {
@@ -139,10 +143,14 @@ class HomeActivity : AppCompatActivity() {
 
 
             var hotel=ArrayList<String>()
-            hotel.add("Vadivelu Hotel")
-            hotel.add("Night Kadai")
-            hotel.add("Ganesh Hotel")
-            hotel.add("Siva Hotel")
+            hotel.add("Saravana Bhavan")
+            hotel.add("Sea Shell")
+            hotel.add("Thalapakatti")
+            hotel.add("Kannapa")
+            hotel.add("Banna Leaf")
+            hotel.add("KFC")
+            hotel.add("Dominos")
+
 
             for(i in 0 until hotel.size)
             {
@@ -170,9 +178,12 @@ class HomeActivity : AppCompatActivity() {
 
 
             var vegetables=ArrayList<String>()
-            vegetables.add("Fresh Vegetables")
-            vegetables.add("Veggis and Fruits")
-            vegetables.add("New Fresh Veggie")
+            vegetables.add("Garden Roots")
+            vegetables.add("SRR Vegetable Market")
+            vegetables.add("At your door Market")
+            vegetables.add("Muruyan Vegetable Shop")
+            vegetables.add("Diamond Vegetable Market")
+            vegetables.add("AVC Vegetable Market")
 
 
 
