@@ -144,6 +144,11 @@ class Login :AppCompatActivity(), View.OnClickListener{
                /* val intent = Intent(this@Login, HomeActivity::class.java)
                 // start your next activity
                 startActivity(intent)*/
+                AppExecutors.getInstance().diskIO().execute(Runnable {
+                  var userInfo=user
+                    userInfo?.logOut=false
+                    AppDatabase.getInstance(this).userDao().updatePerson(userInfo)
+                })
                 GlobalClass.getInstance()!!.userInfo=user!!
                 showLocationDialog()
             }else{
@@ -181,6 +186,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 userInfo.profileImage="https://graph.facebook.com/"+fbInfo.id+"/picture?type=large"
                 userInfo.password = fbInfo.id
                 userInfo.isSocialLogin=true
+                userInfo.logOut=false
 
                 AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
 
@@ -189,6 +195,9 @@ class Login :AppCompatActivity(), View.OnClickListener{
 
                 })
             } else {
+
+                user.logOut=false
+                AppDatabase.getInstance(this).userDao().updatePerson(user)
 
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     showLocationDialog()
@@ -209,6 +218,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 userInfo.profileImage=googleInfo?.profileUrl
                 userInfo.password = googleInfo?.accesstoken
                 userInfo.isSocialLogin=true
+                userInfo.logOut=false
 
                 AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
                 AppExecutors.getInstance().mainThread().execute(Runnable {
@@ -216,6 +226,9 @@ class Login :AppCompatActivity(), View.OnClickListener{
 
                 })
             } else {
+                user.logOut=false
+                AppDatabase.getInstance(this).userDao().updatePerson(user)
+
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     showLocationDialog()
 
