@@ -1,5 +1,7 @@
 package com.virus.covid19.home
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -347,5 +349,21 @@ AppExecutors.getInstance().mainThread().execute(Runnable {
             AppDatabase.getInstance(this).productDao().insertProduct(product)
 
         }
+    }
+
+    fun animateCartItem()
+    {
+        val set = AnimatorInflater.loadAnimator(
+            this,
+            R.animator.flip
+        ) as AnimatorSet
+        set.setTarget(cartcount)
+        cartcount?.setText(GlobalClass.cartList.size.toString())
+        set.start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        animateCartItem()
     }
 }

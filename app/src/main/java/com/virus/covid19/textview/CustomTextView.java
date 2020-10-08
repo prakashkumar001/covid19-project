@@ -12,8 +12,8 @@ import com.virus.covid19.R;
 
 public class CustomTextView extends AppCompatTextView {
 
-    private int typefaceType;
-    private TypeFactory mFontFactory;
+    public int typefaceType;
+    public TypeFactory mFontFactory;
 
     public CustomTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -31,7 +31,7 @@ public class CustomTextView extends AppCompatTextView {
         super(context);
     }
 
-    private void applyCustomFont(Context context, AttributeSet attrs) {
+    public void applyCustomFont(Context context, AttributeSet attrs) {
 
 
         TypedArray array = context.getTheme().obtainStyledAttributes(

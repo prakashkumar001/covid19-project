@@ -12,12 +12,78 @@
 
 
     <LinearLayout
-        android:id="@+id/proceed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true">
 
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
+
+            <com.virus.covid19.textview.CustomTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subtotal : "/>
+
+            <com.virus.covid19.textview.CustomTextView
+                android:id="@+id/subtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
+
+            <com.virus.covid19.textview.CustomTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delivery fee : "/>
+
+            <com.virus.covid19.textview.CustomTextView
+                android:id="@+id/deliveryfee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
+
+            <com.virus.covid19.textview.CustomTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total : "/>
+
+            <com.virus.covid19.textview.CustomTextView
+                android:id="@+id/totalAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+        </LinearLayout>
+
         <com.virus.covid19.textview.CustomTextView
+            android:id="@+id/proceed"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"

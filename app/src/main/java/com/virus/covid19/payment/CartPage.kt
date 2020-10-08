@@ -11,11 +11,13 @@ import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import com.virus.covid19.R
 import com.virus.covid19.application.GlobalClass
+import com.virus.covid19.database.entities.Product
+import com.virus.covid19.interfaces.CartListener
 import com.virus.covid19.viewholder.CartViewAdapter
 import kotlinx.android.synthetic.main.activity_cart.*
 import org.json.JSONObject
 
-class CartPage :AppCompatActivity(), PaymentResultListener {
+class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
 
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +25,7 @@ class CartPage :AppCompatActivity(), PaymentResultListener {
         Checkout.preload(applicationContext)
 
         cart_view.layoutManager= LinearLayoutManager(this)
-        cart_view.adapter=CartViewAdapter(this,GlobalClass.cartList)
+        cart_view.adapter=CartViewAdapter(this,GlobalClass.cartList,this)
         proceed.setOnClickListener(View.OnClickListener {
            startPayment()
         })
@@ -78,10 +80,44 @@ class CartPage :AppCompatActivity(), PaymentResultListener {
     {
         var rs = totalAmount
         val paise1: Double
-        val paise2: Double
-
         paise1 = rs * 100
         println("Rs." + rs + " = " + paise1.toLong() + " paise")
         return paise1.toLong()
+    }
+
+    override fun addQtyToCart(product: Product,qty:Int) {
+        product.qty=qty.toString()
+        cart_view.adapter?.notifyDataSetChanged()
+        getTotalCart()
+
+
+    }
+
+    override fun removeQtyFromCart(product: Product,qty:Int) {
+        product.qty=qty.toString()
+        cart_view.adapter?.notifyDataSetChanged()
+        getTotalCart()
+
+    }
+
+    override fun removeFromCart(product: Product) {
+        GlobalClass.cartList.remove(product)
+        cart_view.adapter?.notifyDataSetChanged()
+        getTotalCart()
+    }
+
+    fun getTotalCart()
+    {
+        var subtotalValue=0.0
+        var  deliveryfeeValue=20.00
+        for(i in 0 until GlobalClass.cartList.size){
+            var qty=GlobalClass.cartList.get(i).qty
+            var price=GlobalClass.cartList.get(i).price
+            subtotalValue=subtotalValue + qty!!.toInt()*(price?.toDouble()!!)
+        }
+        var totalValue=subtotalValue.plus(deliveryfeeValue)
+        totalAmount.text=String.format("%.2f", totalValue)
+        subtotal.text=String.format("%.2f", subtotalValue)
+        deliveryfee.text=String.format("%.2f", deliveryfeeValue)
     }
 }
