@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:id="@+id/bg"
     android:layout_height="match_parent"
-    android:background="#ccc">
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:background="@android:color/white"
+   >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       >
+
+    </ImageView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
     <com.virus.covid19.textview.CustomTextView
         android:id="@+id/title"
@@ -11,6 +29,14 @@
         android:layout_height="wrap_content">
 
     </com.virus.covid19.textview.CustomTextView>
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:textColorHint="@android:color/darker_gray"
+        android:hint="Search by product name"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shopItemList"
@@ -20,6 +46,8 @@
         >
 
     </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
 
+    </FrameLayout>
 
 </LinearLayout>

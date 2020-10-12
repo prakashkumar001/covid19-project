@@ -19,12 +19,11 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageView
+            <com.virus.covid19.utilities.CircleImage
                 android:id="@+id/image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:scaleType="fitXY"
                 android:src="@mipmap/ic_launcher"/>
 
             <TextView

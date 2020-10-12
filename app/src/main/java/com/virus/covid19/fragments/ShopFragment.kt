@@ -2,20 +2,16 @@ package com.virus.covid19.fragments
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 import com.virus.covid19.R
 import com.virus.covid19.application.GlobalClass
 import com.virus.covid19.database.AppDatabase
@@ -26,7 +22,6 @@ import com.virus.covid19.interfaces.addCartListener
 import com.virus.covid19.utilities.ProductAvailable
 import com.virus.covid19.viewholder.ShopListItemAdapter
 import kotlinx.android.synthetic.main.fragment_shop.view.*
-import org.jetbrains.anko.backgroundDrawable
 
 
 class ShopFragment : Fragment(),addCartListener {
@@ -46,7 +41,7 @@ class ShopFragment : Fragment(),addCartListener {
         AppExecutors.getInstance().diskIO().execute(Runnable {
             var shop = AppDatabase.getInstance(activity).shopsDao().getShopByName(shopName!!)
             AppExecutors.getInstance().mainThread().execute(Runnable {
-                Glide.with(activity!!).asBitmap().load(shop?.shopImageUrl)
+                /*Glide.with(activity!!).asBitmap().load(shop?.shopImageUrl)
                     .into(object : SimpleTarget<Bitmap>() {
                         override fun onResourceReady(
                             resource: Bitmap,
@@ -60,8 +55,9 @@ class ShopFragment : Fragment(),addCartListener {
                         }
 
 
-                    })
-
+                    })*/
+                Glide.with(activity!!).asBitmap().load(shop?.shopImageUrl).fitCenter().into(v.bg)
+                v.shopItemList.alpha=0.8f
             })
         })
 
@@ -73,6 +69,18 @@ class ShopFragment : Fragment(),addCartListener {
             )
         )
         getShopList(v)
+
+        v.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                productListAdapter?.filter?.filter(newText)
+                return false
+            }
+
+        })
         return v
     }
 
@@ -81,7 +89,7 @@ class ShopFragment : Fragment(),addCartListener {
         AppExecutors.getInstance().diskIO().execute(Runnable {
             productList = AppDatabase.getInstance(activity!!).productDao().loadAllByProduct(category!!)
             AppExecutors.getInstance().mainThread().execute(Runnable {
-                productListAdapter=ShopListItemAdapter(productList!!,this)
+                productListAdapter=ShopListItemAdapter(ArrayList<Product>(productList!!),this)
                 v.shopItemList.adapter=productListAdapter
                 productListAdapter?.notifyDataSetChanged()
 

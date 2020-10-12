@@ -150,7 +150,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
                     AppDatabase.getInstance(this).userDao().updatePerson(userInfo)
                 })
                 GlobalClass.getInstance()!!.userInfo=user!!
-                showLocationDialog()
+                showLocationDialog(user?.name!!)
             }else{
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     Toast.makeText(this,"Invalid User or Password",Toast.LENGTH_SHORT).show()
@@ -162,9 +162,9 @@ class Login :AppCompatActivity(), View.OnClickListener{
 
     }
 
-    private fun showLocationDialog()
+    private fun showLocationDialog(name:String)
     {
-        var userLocationDialog=UserLocationDialog(this,"Prakash")
+        var userLocationDialog=UserLocationDialog(this,name)
         userLocationDialog.show(supportFragmentManager,TAG)
 
     }
@@ -191,7 +191,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
 
                 AppExecutors.getInstance().mainThread().execute(Runnable {
-                    showLocationDialog()
+                    showLocationDialog(userInfo?.name!!)
 
                 })
             } else {
@@ -200,7 +200,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 AppDatabase.getInstance(this).userDao().updatePerson(user)
 
                 AppExecutors.getInstance().mainThread().execute(Runnable {
-                    showLocationDialog()
+                    showLocationDialog(user?.name!!)
 
                 })
             }
@@ -222,7 +222,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
 
                 AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
                 AppExecutors.getInstance().mainThread().execute(Runnable {
-                    showLocationDialog()
+                    showLocationDialog(userInfo?.name!!)
 
                 })
             } else {
@@ -230,7 +230,7 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 AppDatabase.getInstance(this).userDao().updatePerson(user)
 
                 AppExecutors.getInstance().mainThread().execute(Runnable {
-                    showLocationDialog()
+                    showLocationDialog(user?.name!!)
 
                 })
             }
