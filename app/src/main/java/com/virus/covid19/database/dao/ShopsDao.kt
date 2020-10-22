@@ -9,8 +9,8 @@ interface ShopsDao {
     @Query("SELECT * FROM shops ORDER BY ID")
     fun loadAllShop(): List<Shops>?
 
-    @Query("SELECT * FROM shops WHERE shopType = :shopname ORDER BY ID")
-    fun loadAllByShop(shopname:String): List<Shops>?
+    @Query("SELECT * FROM shops WHERE shopType = :shopname AND location = :location ORDER BY ID")
+    fun loadAllByShop(shopname:String,location:String): List<Shops>?
 
     @Insert
     fun insertShop(user: Shops?)

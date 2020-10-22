@@ -36,7 +36,7 @@ class CategoryViewAdapter( val mContext: Context, private val categoryList: List
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         var categoryViewHolder=holder as CategoryViewHolder
         categoryViewHolder.itemView.product.text=categoryList?.get(position)?.categoryName
-        Glide.with(mContext).asBitmap().load(categoryList?.get(position)?.categoryImage).into(categoryViewHolder.itemView.image)
+        Glide.with(mContext).asBitmap().load(categoryList?.get(position)?.categoryImage).placeholder(R.drawable.cart_image).error(R.drawable.cart_image).into(categoryViewHolder.itemView.image)
 
 
         categoryViewHolder.itemView.setOnClickListener(View.OnClickListener {

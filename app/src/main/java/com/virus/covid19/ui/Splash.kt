@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.virus.covid19.R
 import com.virus.covid19.account.Login
+import com.virus.covid19.application.GlobalClass
 import com.virus.covid19.database.AppDatabase
 import com.virus.covid19.database.AppExecutors
 import com.virus.covid19.home.HomeActivity

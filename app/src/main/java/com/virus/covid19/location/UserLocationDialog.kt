@@ -21,10 +21,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.get
 import androidx.fragment.app.DialogFragment
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.virus.covid19.R
+import com.virus.covid19.database.AppDatabase
+import com.virus.covid19.database.AppExecutors
+import com.virus.covid19.database.entities.User
 import com.virus.covid19.home.HomeActivity
 import com.virus.covid19.utilities.DeviceUtility
 import kotlinx.android.synthetic.main.user_location_dialog.*
@@ -36,15 +38,15 @@ import kotlin.collections.ArrayList
 class UserLocationDialog : DialogFragment,View.OnClickListener {
     var mLocationRequest:LocationRequest?=null
     var mLocationCallback:LocationCallback?=null
-
+    var location:String?=null
     private val UPDATE_INTERVAL = 10 * 1000 /* 10 secs */.toLong()
     private val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
 
-    constructor(context: Context, username: String) : super() {
+    constructor(context: Context, user: User) : super() {
         this.tagList = ArrayList<String>()
-        this.username=username
+        this.user=user
     }
-    var username:String?=null
+    var user:User?=null
     var tagGroup: ChipGroup?=null
     var tagList:ArrayList<String>
     var fusedLocationProviderClient: FusedLocationProviderClient? = null
@@ -65,7 +67,7 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
         hello_user=rootView.findViewById(R.id.hello_user)
         next=rootView.findViewById(R.id.next)
 
-        hello_user?.text="Hello "+username
+        hello_user?.text="Hello "+user?.name
         myLoc?.setOnClickListener(this)
         next?.setOnClickListener(this)
         addTagsToGroup()
@@ -112,6 +114,11 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
             startLocationUpdates()
         }else if(v == next)
         {
+           AppExecutors.getInstance().diskIO().execute(Runnable {
+               user?.location=location
+               AppDatabase.getInstance(activity).userDao().updatePerson(user)
+            })
+
              val intent = Intent(activity, HomeActivity::class.java)
                 // start your next activity
                 startActivity(intent)
@@ -139,6 +146,12 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
             aertDialogParent?.layoutParams = layoutParamParent
         }
 
+        tagGroup?.setOnCheckedChangeListener(ChipGroup.OnCheckedChangeListener { chipGroup, i ->
+            val chip: Chip = chipGroup.findViewById(i)
+            if (chip != null) {
+                location=chip.text.toString()
+            }
+        })
 
 
     }
@@ -184,7 +197,7 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
         var knownName = addresses.get(0).getFeatureName()
 
         Log.e("Location","Location"+city)
-        Toast.makeText(activity!!,"Your Current Location is : "+city,Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity!!,"Your Current Location is : "+city,Toast.LENGTH_SHORT).show()
         for(i in 0 until tagList.size)
         {
             if(tagList.get(i).equals(city,true))

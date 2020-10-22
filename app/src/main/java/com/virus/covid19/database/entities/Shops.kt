@@ -12,5 +12,7 @@ class Shops {
     var shopType:String?=null
     var shopImageUrl:String?=null
     var shopBgColor:String?=null
+    var location:String?=null
+
 
 }

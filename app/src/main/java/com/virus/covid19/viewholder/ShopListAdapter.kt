@@ -37,7 +37,7 @@ class ShopListAdapter(private val shopList:List<Shops>,private val cardClickList
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         var viewHolder=holder as ShopListViewHolder
         viewHolder.itemView.title.text=shopList.get(position).shopName
-        Glide.with(mContext!!).asBitmap().load(shopList.get(position).shopImageUrl).placeholder(R.drawable.cart_image).into(viewHolder.itemView.icon)
+        Glide.with(mContext!!).asBitmap().load(shopList.get(position).shopImageUrl).placeholder(R.drawable.cart_image).error(R.drawable.cart_image).into(viewHolder.itemView.icon)
 
         viewHolder.itemView.setOnClickListener(View.OnClickListener {
             cardClickListener.getCategoryName(shopList.get(position).shopType!!)

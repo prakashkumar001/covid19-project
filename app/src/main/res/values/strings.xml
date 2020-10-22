@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Covid19</string>
+    <string name="app_name">DirectMart</string>
     <!-- Strings related to login -->
     <string name="facebook_app_id">369965830665440</string>
     <string name="fb_login_protocol_scheme">fb369965830665440</string>

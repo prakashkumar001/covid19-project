@@ -6,12 +6,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cart_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="110dp"
+        >
 
     </androidx.recyclerview.widget.RecyclerView>
 
 
     <LinearLayout
+        android:id="@+id/payment_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

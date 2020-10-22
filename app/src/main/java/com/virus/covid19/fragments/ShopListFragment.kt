@@ -43,13 +43,18 @@ class ShopListFragment : Fragment(),CardClickListener{
     private fun getShopList(v:View)
     {
         AppExecutors.getInstance().diskIO().execute(Runnable {
-            shopList = AppDatabase.getInstance(activity!!).shopsDao().loadAllByShop(shopName!!)
-            AppExecutors.getInstance().mainThread().execute(Runnable {
-                shopListAdapter=ShopListAdapter(shopList!!,this)
-                v.recyclerView.adapter=shopListAdapter
-                shopListAdapter?.notifyDataSetChanged()
 
-            })
+            var user=AppDatabase.getInstance(activity!!).userDao().getUserInfo(false)
+            if(user!=null){
+                shopList = AppDatabase.getInstance(activity!!).shopsDao().loadAllByShop(shopName!!,user.location!!)
+                AppExecutors.getInstance().mainThread().execute(Runnable {
+                    shopListAdapter=ShopListAdapter(shopList!!,this)
+                    v.recyclerView.adapter=shopListAdapter
+                    shopListAdapter?.notifyDataSetChanged()
+
+                })
+            }
+
         })
     }
 

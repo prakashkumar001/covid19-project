@@ -88,11 +88,26 @@ class HomeActivity : AppCompatActivity() {
     {
         AppExecutors.getInstance().diskIO().execute(Runnable {
             var grocery=ArrayList<ShopDetail>()
-            grocery.add(ShopDetail("Nilgris","https://th.thgim.com/migration_catalog/article10983021.ece/ALTERNATES/FREE_660/Nil"))
-            grocery.add(ShopDetail("Global","https://media-exp1.licdn.com/dms/image/C4D0BAQGBO2-ay1Jz0w/company-logo_200_200/0?e=2159024400&v=beta&t=4bi8yf7qmVvLbdxLY9GTSIy2yt_P_TmAfoa6NeNUi3Y"))
-            grocery.add(ShopDetail("Nature Stores","https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/7/6/4/6/2576467-1-eng-GB/US-market-can-support-at-least-1-100-Natural-Grocers-by-Vitamin-Cottage-stores-says-IPO-filing_wrbm_large.jpg"))
-            grocery.add(ShopDetail("Snack Paradise","https://media.istockphoto.com/photos/group-of-sweet-and-salty-snacks-perfect-for-binge-watching-picture-id1149135424"))
-            grocery.add(ShopDetail("Reliance Super Market","https://content.jdmagicbox.com/comp/vadodara/k6/0265px265.x265.140402182816.y1k6/catalogue/reliance-market-undera-vadodara-grocery-wholesalers-1dilhbi.jpg"))
+            grocery.add(ShopDetail("Nilgris","https://th.thgim.com/migration_catalog/article10983021.ece/ALTERNATES/FREE_660/Nil","all"))
+            grocery.add(ShopDetail("Global","https://media-exp1.licdn.com/dms/image/C4D0BAQGBO2-ay1Jz0w/company-logo_200_200/0?e=2159024400&v=beta&t=4bi8yf7qmVvLbdxLY9GTSIy2yt_P_TmAfoa6NeNUi3Y","all"))
+            grocery.add(ShopDetail("Nature Stores","https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/7/6/4/6/2576467-1-eng-GB/US-market-can-support-at-least-1-100-Natural-Grocers-by-Vitamin-Cottage-stores-says-IPO-filing_wrbm_large.jpg","all"))
+            grocery.add(ShopDetail("Snack Paradise","https://media.istockphoto.com/photos/group-of-sweet-and-salty-snacks-perfect-for-binge-watching-picture-id1149135424","all"))
+            grocery.add(ShopDetail("Reliance Super Market","https://content.jdmagicbox.com/comp/vadodara/k6/0265px265.x265.140402182816.y1k6/catalogue/reliance-market-undera-vadodara-grocery-wholesalers-1dilhbi.jpg","all"))
+
+            /*Trichy*/
+            grocery.add(ShopDetail("Reliance Digital Mart","","Trichy"))
+            grocery.add(ShopDetail("Roshan Maligai","","Trichy"))
+            grocery.add(ShopDetail("Padma Mart","","Trichy"))
+            grocery.add(ShopDetail("Saraswathi Stores","","Trichy"))
+            grocery.add(ShopDetail("Kaveri Super Market","","Trichy"))
+
+
+            /*Kumbakonam*/
+            grocery.add(ShopDetail("City Super Maligai","","Kumbakonam"))
+            grocery.add(ShopDetail("Alangar Maligai","","Kumbakonam"))
+            grocery.add(ShopDetail("Greenz Shopping Mart","","Kumbakonam"))
+            grocery.add(ShopDetail("Sangam Maligai","","Kumbakonam"))
+            grocery.add(ShopDetail("Patanjali Arogya Kendra","","Kumbakonam"))
 
             for(i in 0 until grocery.size)
             {
@@ -102,17 +117,35 @@ class HomeActivity : AppCompatActivity() {
                 shop.shopType="Grocery Shops"
                 shop.shopBgColor="#FFFFFF"
                 shop.shopImageUrl=grocery.get(i).product_image
+                shop.location=grocery.get(i).location
+
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
 
             var saloon=ArrayList<ShopDetail>()
-            saloon.add(ShopDetail("Tony & Guy",""))
-            saloon.add(ShopDetail("Naturals",""))
-            saloon.add(ShopDetail("Green Trends",""))
-            saloon.add(ShopDetail("City Saloon",""))
-            saloon.add(ShopDetail("Scissors & Razors",""))
-            saloon.add(ShopDetail("Beauty Hair Saloon",""))
+            saloon.add(ShopDetail("Tony & Guy","","all"))
+            saloon.add(ShopDetail("Naturals","","all"))
+            saloon.add(ShopDetail("Green Trends","","all"))
+            saloon.add(ShopDetail("City Saloon","","all"))
+            saloon.add(ShopDetail("Scissors & Razors","","all"))
+            saloon.add(ShopDetail("Beauty Hair Saloon","","all"))
+
+            /*Kumbakonam*/
+            saloon.add(ShopDetail("Bala Saloon Shop","","Kumbakonam"))
+            saloon.add(ShopDetail("Mayuio Ladies Beauty Parlour","","Kumbakonam"))
+            saloon.add(ShopDetail("Sri Saloon For Men","","Kumbakonam"))
+            saloon.add(ShopDetail("Kalai Beauty Parlour","","Kumbakonam"))
+            saloon.add(ShopDetail("Priya Beauty Herbal Plus","","Kumbakonam"))
+
+            /*Trichy*/
+            saloon.add(ShopDetail("Zazzle Men Saloon","","Trichy"))
+            saloon.add(ShopDetail("Golden Green Saloon","","Trichy"))
+            saloon.add(ShopDetail("ADM Saloon","","Trichy"))
+            saloon.add(ShopDetail("Gold Stone Saloon","","Trichy"))
+            saloon.add(ShopDetail("MuthuKumar Saloon","","Trichy"))
+
+
 
             for(i in 0 until saloon.size)
             {
@@ -122,6 +155,8 @@ class HomeActivity : AppCompatActivity() {
                 shop.shopType="Saloon"
                 shop.shopBgColor="#FFFFFF"
                 shop.shopImageUrl=saloon.get(i).product_image
+                shop.location=saloon.get(i).location
+
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
@@ -129,12 +164,26 @@ class HomeActivity : AppCompatActivity() {
 
 
             var medicals=ArrayList<ShopDetail>()
-            medicals.add(ShopDetail("Apollo Pharmacy",""))
-            medicals.add(ShopDetail("Public Pharmacy",""))
-            medicals.add(ShopDetail("Vista Pharmacy",""))
-            medicals.add(ShopDetail("Stanley's Pharmacy",""))
-            medicals.add(ShopDetail("Joseph Medicals",""))
-            medicals.add(ShopDetail("KMC Medicals",""))
+            medicals.add(ShopDetail("Apollo Pharmacy","","all"))
+            medicals.add(ShopDetail("Public Pharmacy","","all"))
+            medicals.add(ShopDetail("Vista Pharmacy","","all"))
+            medicals.add(ShopDetail("Stanley's Pharmacy","","all"))
+            medicals.add(ShopDetail("Joseph Medicals","","all"))
+            medicals.add(ShopDetail("KMC Medicals","","all"))
+
+            /*Trichy*/
+            medicals.add(ShopDetail("Apollo Medicals","","Trichy"))
+            medicals.add(ShopDetail("Lakshmi Medicals","","Trichy"))
+            medicals.add(ShopDetail("Trichy Homeo Medicals","","Trichy"))
+            medicals.add(ShopDetail("MedPlus Medicals","","Trichy"))
+            medicals.add(ShopDetail("AVC Medicals & Generals","","Trichy"))
+
+            /*Kumbakonam*/
+            medicals.add(ShopDetail("Kurunji Medicals","","Kumbakonam"))
+            medicals.add(ShopDetail("Bawa General Medicines","","Kumbakonam"))
+            medicals.add(ShopDetail("Amman Medicals","","Kumbakonam"))
+            medicals.add(ShopDetail("Cauvery MediPlus","","Kumbakonam"))
+            medicals.add(ShopDetail("Annai Siddha Medicals","","Kumbakonam"))
 
 
             for(i in 0 until medicals.size)
@@ -145,6 +194,8 @@ class HomeActivity : AppCompatActivity() {
                 shop.shopType="Medicals"
                 shop.shopBgColor="#FFFFFF"
                 shop.shopImageUrl=medicals.get(i).product_image
+                shop.location=medicals.get(i).location
+
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
@@ -152,13 +203,29 @@ class HomeActivity : AppCompatActivity() {
 
 
             var hotel=ArrayList<ShopDetail>()
-            hotel.add(ShopDetail("Saravana Bhavan",""))
-            hotel.add(ShopDetail("Sea Shell",""))
-            hotel.add(ShopDetail("Thalapakatti",""))
-            hotel.add(ShopDetail("Kannapa",""))
-            hotel.add(ShopDetail("Banna Leaf",""))
-            hotel.add(ShopDetail("KFC",""))
-            hotel.add(ShopDetail("Dominos",""))
+            hotel.add(ShopDetail("Saravana Bhavan","","all"))
+            hotel.add(ShopDetail("Sea Shell","","all"))
+            hotel.add(ShopDetail("Thalapakatti","","all"))
+            hotel.add(ShopDetail("Kannapa","","all"))
+            hotel.add(ShopDetail("Banna Leaf","","all"))
+            hotel.add(ShopDetail("KFC","","all"))
+            hotel.add(ShopDetail("Dominos","","all"))
+
+            /*Kumbakonam*/
+            hotel.add(ShopDetail("Satharas Restaurent","","Kumbakonam"))
+            hotel.add(ShopDetail("Karakudi Chettinadu Restaurent","","Kumbakonam"))
+            hotel.add(ShopDetail("Sharma Hotel (Veg & Non-veg)","","Kumbakonam"))
+            hotel.add(ShopDetail("Alif Tandoori Restaurent","","Kumbakonam"))
+            hotel.add(ShopDetail("Murali Cafe","","Kumbakonam"))
+            hotel.add(ShopDetail("Masala Cafe","","Kumbakonam"))
+
+            /*Trichy*/
+            hotel.add(ShopDetail("Kannapa Hotel","","Trichy"))
+            hotel.add(ShopDetail("Saraswathi Cafe (Veg)","","Trichy"))
+            hotel.add(ShopDetail("Sangeetha Restaurent","","Trichy"))
+            hotel.add(ShopDetail("Ezham Suvai Hotel","","Trichy"))
+            hotel.add(ShopDetail("Murugan Idli Shop","","Trichy"))
+
 
             for(i in 0 until hotel.size)
             {
@@ -168,14 +235,31 @@ class HomeActivity : AppCompatActivity() {
                 shop.shopType="Hotels"
                 shop.shopBgColor="#FFFFFF"
                 shop.shopImageUrl=hotel.get(i).product_image
+                shop.location=hotel.get(i).location
+
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
 
             var physio=ArrayList<ShopDetail>()
-            hotel.add(ShopDetail("SRM Hospital",""))
-            hotel.add(ShopDetail("SRV Physio",""))
-            hotel.add(ShopDetail("Physiotheraphy and card",""))
+            hotel.add(ShopDetail("SRM Hospital","","all"))
+            hotel.add(ShopDetail("SRV Physio","","all"))
+            hotel.add(ShopDetail("Physiotheraphy and card","","all"))
+
+            /*Trichy*/
+            hotel.add(ShopDetail("Jeevam Physiotheraphy","","Trichy"))
+            hotel.add(ShopDetail("Kerala Kottakal Physiotheraphy","","Trichy"))
+            hotel.add(ShopDetail("CARE Physiotheraphist Center","","Trichy"))
+            hotel.add(ShopDetail("Mary Madha Physiotheraphy","","Trichy"))
+            hotel.add(ShopDetail("Ramya Clinic","","Trichy"))
+
+            /*Kumbakonam*/
+            hotel.add(ShopDetail("Physio-Care Clinic","","Kumbakonam"))
+            hotel.add(ShopDetail("Sri Vinayaga Physio Clinic","","Kumbakonam"))
+            hotel.add(ShopDetail("Dr.ArulSelvi Clinic","","Kumbakonam"))
+            hotel.add(ShopDetail("Q-Spine Physio Clinic","","Kumbakonam"))
+            hotel.add(ShopDetail("Swathi Lab & Physiotheraphy","","Kumbakonam"))
+
 
             for(i in 0 until physio.size)
             {
@@ -185,17 +269,33 @@ class HomeActivity : AppCompatActivity() {
                 shop.shopType="Physiotherapist"
                 shop.shopBgColor="#FFFFFF"
                 shop.shopImageUrl=physio.get(i).product_image
+                shop.location=physio.get(i).location
+
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
 
             var vegetables=ArrayList<ShopDetail>()
-            vegetables.add(ShopDetail("Garden Roots",""))
-            vegetables.add(ShopDetail("SRR Vegetable Market",""))
-            vegetables.add(ShopDetail("At your door Market",""))
-            vegetables.add(ShopDetail("Muruyan Vegetable Shop",""))
-            vegetables.add(ShopDetail("Diamond Vegetable Market",""))
-            vegetables.add(ShopDetail("AVC Vegetable Market",""))
+            vegetables.add(ShopDetail("Garden Roots","","all"))
+            vegetables.add(ShopDetail("SRR Vegetable Market","","all"))
+            vegetables.add(ShopDetail("At your door Market","","all"))
+            vegetables.add(ShopDetail("Muruyan Vegetable Shop","","all"))
+            vegetables.add(ShopDetail("Diamond Vegetable Market","","all"))
+            vegetables.add(ShopDetail("AVC Vegetable Market","","all"))
+
+          /*Trichy*/
+            vegetables.add(ShopDetail("Padma Pazhamudir","","Trichy"))
+            vegetables.add(ShopDetail("Kumar Mandi","","Trichy"))
+            vegetables.add(ShopDetail("Srinivasa Vegetable Shop","","Trichy"))
+            vegetables.add(ShopDetail("Pasumai Vegetable Shop","","Trichy"))
+            vegetables.add(ShopDetail("FRESH & MORE Veg Shop","","Trichy"))
+
+         /*Kumbakonam*/
+            vegetables.add(ShopDetail("Kumbakonam Municipality Market","","Kumbakonam"))
+            vegetables.add(ShopDetail("Uzhavan Pazhamudir Solai","","Kumbakonam"))
+            vegetables.add(ShopDetail("Vedha KaiKarigal","","Kumbakonam"))
+            vegetables.add(ShopDetail("Arul Jothi Vilas Market","","Kumbakonam"))
+            vegetables.add(ShopDetail("Maruthu Vilas Vegetable","","Kumbakonam"))
 
 
 
@@ -207,6 +307,7 @@ class HomeActivity : AppCompatActivity() {
                 shop.shopType="Vegetable Shops"
                 shop.shopBgColor="#FFFFFF"
                 shop.shopImageUrl=vegetables.get(i).product_image
+                shop.location=vegetables.get(i).location
                 AppDatabase.getInstance(this).shopsDao().insertShop(shop)
             }
 
@@ -224,7 +325,7 @@ class HomeActivity : AppCompatActivity() {
             {
                 var user=users.get(0)
 AppExecutors.getInstance().mainThread().execute(Runnable {
-    Glide.with(GlobalClass.getInstance()!!).asBitmap().load(user?.profileImage).into(profileimage)
+    Glide.with(GlobalClass.getInstance()!!).asBitmap().load(user?.profileImage).placeholder(R.drawable.user_pic).error(R.drawable.user_pic).into(profileimage)
     name.text=user?.name
 })
             }

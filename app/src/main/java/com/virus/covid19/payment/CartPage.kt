@@ -29,6 +29,8 @@ class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
         proceed.setOnClickListener(View.OnClickListener {
            startPayment()
         })
+
+            getTotalCart()
     }
 
     private fun startPayment() {

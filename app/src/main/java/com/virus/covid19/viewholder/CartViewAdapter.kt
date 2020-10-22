@@ -48,7 +48,7 @@ class CartViewAdapter (val mContext: Context, private val cartList: List<Product
 
         categoryViewHolder.itemView.plus.setOnClickListener(View.OnClickListener {
             var qty=categoryViewHolder.itemView.qty.text.toString()
-            if(qty.toInt()<=10){
+            if(qty.toInt()<10){
                 var totalQty=qty.toInt()+1
                 cartListener.addQtyToCart(cartList?.get(position),totalQty)
             }else
