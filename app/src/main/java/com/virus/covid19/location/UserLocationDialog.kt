@@ -42,9 +42,8 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
     private val UPDATE_INTERVAL = 10 * 1000 /* 10 secs */.toLong()
     private val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
 
-    constructor(context: Context, user: User) : super() {
+    constructor(context: Context) : super() {
         this.tagList = ArrayList<String>()
-        this.user=user
     }
     var user:User?=null
     var tagGroup: ChipGroup?=null
@@ -53,7 +52,6 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
     var myLoc:AppCompatImageView?=null
     var hello_user:AppCompatTextView?=null
     var next:AppCompatTextView?=null
-
     private val REQUEST_CODE = 200
 
     override fun onCreateView(
@@ -66,8 +64,13 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
         myLoc=rootView.findViewById(R.id.myloc)
         hello_user=rootView.findViewById(R.id.hello_user)
         next=rootView.findViewById(R.id.next)
-
+AppExecutors.getInstance().diskIO().execute(Runnable {
+    user=AppDatabase.getInstance(activity).userDao().getUser()
+    AppExecutors.getInstance().mainThread().execute(Runnable {
         hello_user?.text="Hello "+user?.name
+
+    })
+})
         myLoc?.setOnClickListener(this)
         next?.setOnClickListener(this)
         addTagsToGroup()

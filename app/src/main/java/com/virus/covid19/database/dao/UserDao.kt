@@ -30,6 +30,7 @@ interface UserDao {
         @Query("SELECT * FROM user WHERE email = :email AND isSocialLogin = :issocial")
         fun getUserInfo(email: String,issocial: Boolean): User?
 
-        @Query("SELECT * FROM user WHERE logOut =:value")
-        fun getUserInfo(value: Boolean): User?
+        @Query("SELECT * FROM user")
+        fun getUser(): User?
+
 }

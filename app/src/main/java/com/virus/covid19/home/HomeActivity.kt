@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.virus.covid19.R
@@ -29,11 +30,13 @@ class HomeActivity : AppCompatActivity() {
     var navigationList:ArrayList<DrawerItem> = ArrayList()
     var backPressedCount = 0
     var cartcount:CustomTextView?=null
+     var drawer_layout:DrawerLayout?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         cartcount = findViewById(R.id.cartcount) as CustomTextView
+        drawer_layout= findViewById(R.id.drawer_layout) as DrawerLayout
 
         val toggle = ActionBarDrawerToggle(
             this,
@@ -42,7 +45,7 @@ class HomeActivity : AppCompatActivity() {
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-        drawer_layout.setDrawerListener(toggle)
+        drawer_layout!!.setDrawerListener(toggle)
         toggle.syncState()
 
         getNavigationList()

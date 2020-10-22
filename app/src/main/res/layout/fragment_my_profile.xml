@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="My Profile"
+            android:textColor="@android:color/black"
+
+            android:textSize="22dp" />
+
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:orientation="vertical"
+
+                >
+
+                <com.virus.covid19.textview.CustomTextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:hint=" Name"
+                    android:layout_height="54dp"
+                    android:padding="10dp"
+                    android:background="@drawable/editext_border"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
+
+
+                <com.virus.covid19.textview.CustomTextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@drawable/editext_border"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@android:color/black"
+                    android:hint=" Email"
+
+                    android:textColorHint="@android:color/darker_gray" />
+
+
+
+                <com.virus.covid19.textview.CustomTextView
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@drawable/editext_border"
+                    android:layout_marginTop="10dp"
+                    android:singleLine="true"
+                    android:padding="10dp"
+                    android:inputType="number"
+                    android:textColor="@android:color/black"
+                    android:hint=" Phone number"
+                    android:textColorHint="@android:color/darker_gray"
+
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                <com.virus.covid19.textview.CustomTextView
+                    android:id="@+id/address"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:hint="Change Location"
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:gravity="top"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
+
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                       android:id="@+id/spinner"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="50dp">
+
+                    </androidx.appcompat.widget.AppCompatSpinner>
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/signup"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/address"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/round_button"
+                    android:ems="10"
+                    android:text="Update"
+                    android:textColor="@android:color/white" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>

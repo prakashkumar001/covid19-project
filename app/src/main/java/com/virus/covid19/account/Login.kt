@@ -146,11 +146,9 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 startActivity(intent)*/
                 AppExecutors.getInstance().diskIO().execute(Runnable {
                   var userInfo=user
-                    userInfo?.logOut=false
                     AppDatabase.getInstance(this).userDao().updatePerson(userInfo)
                 })
-                GlobalClass.getInstance()!!.userInfo=user!!
-                showLocationDialog(user)
+                showLocationDialog()
             }else{
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     Toast.makeText(this,"Invalid User or Password",Toast.LENGTH_SHORT).show()
@@ -162,9 +160,9 @@ class Login :AppCompatActivity(), View.OnClickListener{
 
     }
 
-    private fun showLocationDialog(user:User?)
+    private fun showLocationDialog()
     {
-        var userLocationDialog=UserLocationDialog(this,user!!)
+        var userLocationDialog=UserLocationDialog(this)
         userLocationDialog.show(supportFragmentManager,TAG)
 
     }
@@ -186,21 +184,19 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 userInfo.profileImage="https://graph.facebook.com/"+fbInfo.id+"/picture?type=large"
                 userInfo.password = fbInfo.id
                 userInfo.isSocialLogin=true
-                userInfo.logOut=false
 
                 AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
 
                 AppExecutors.getInstance().mainThread().execute(Runnable {
-                    showLocationDialog(userInfo)
+                    showLocationDialog()
 
                 })
             } else {
 
-                user.logOut=false
                 AppDatabase.getInstance(this).userDao().updatePerson(user)
 
                 AppExecutors.getInstance().mainThread().execute(Runnable {
-                    showLocationDialog(user)
+                    showLocationDialog()
 
                 })
             }
@@ -218,19 +214,17 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 userInfo.profileImage=googleInfo?.profileUrl
                 userInfo.password = googleInfo?.accesstoken
                 userInfo.isSocialLogin=true
-                userInfo.logOut=false
 
                 AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
                 AppExecutors.getInstance().mainThread().execute(Runnable {
-                    showLocationDialog(userInfo)
+                    showLocationDialog()
 
                 })
             } else {
-                user.logOut=false
                 AppDatabase.getInstance(this).userDao().updatePerson(user)
 
                 AppExecutors.getInstance().mainThread().execute(Runnable {
-                    showLocationDialog(user)
+                    showLocationDialog()
 
                 })
             }

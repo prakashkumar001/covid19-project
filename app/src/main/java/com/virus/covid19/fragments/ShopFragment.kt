@@ -2,12 +2,18 @@ package com.virus.covid19.fragments
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
+import android.app.Dialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,8 +25,10 @@ import com.virus.covid19.database.AppExecutors
 import com.virus.covid19.database.entities.Product
 import com.virus.covid19.home.HomeActivity
 import com.virus.covid19.interfaces.addCartListener
+import com.virus.covid19.textview.CustomTextView
 import com.virus.covid19.utilities.ProductAvailable
 import com.virus.covid19.viewholder.ShopListItemAdapter
+import kotlinx.android.synthetic.main.dialog_physio_saloon_alert.view.*
 import kotlinx.android.synthetic.main.fragment_shop.view.*
 
 
@@ -160,5 +168,24 @@ class ShopFragment : Fragment(),addCartListener {
             }
         }
         return ProductAvailable(false, -1)
+    }
+
+    override fun showSaloonOrPhysioDialog(){
+       var dialog: Dialog =  Dialog(activity!!);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_physio_saloon_alert);
+
+        val dialogButton: CustomTextView = dialog.findViewById<View>(R.id.close) as CustomTextView
+        dialogButton.setOnClickListener(View.OnClickListener {
+            dialog.dismiss()
+            GlobalClass.cartList.clear();
+            var intent= Intent(activity,HomeActivity::class.java)
+            startActivity(intent)
+            ActivityCompat.finishAffinity(activity!!)
+        })
+
+        dialog.show()
     }
 }

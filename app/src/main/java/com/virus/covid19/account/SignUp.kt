@@ -30,7 +30,6 @@ class SignUp : AppCompatActivity(), View.OnClickListener {
             userInfo.address=address.text.toString()
             userInfo.password=password.text.toString()
             userInfo.isSocialLogin=false
-            userInfo.logOut=false
 
             AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
             AppExecutors.getInstance().mainThread().execute(Runnable {

@@ -16,10 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.virus.covid19.R;
 import com.virus.covid19.account.Login;
+import com.virus.covid19.account.MyProfile;
 import com.virus.covid19.database.AppDatabase;
 import com.virus.covid19.database.AppExecutors;
 import com.virus.covid19.database.entities.User;
 import com.virus.covid19.fragments.Home;
+import com.virus.covid19.home.HomeActivity;
 import com.virus.covid19.model.DrawerItem;
 
 import java.util.ArrayList;
@@ -55,15 +57,10 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
                        @Override
                        public void run() {
 
-                           List<User> user= AppDatabase.getInstance(context).userDao().loadAllUser();
-                           if(user.size()>0)
+                           User user= AppDatabase.getInstance(context).userDao().getUser();
+                           if(user!=null)
                            {
-                               for(int i=0;i<user.size();i++)
-                               {
-                                   User user1=user.get(i);
-                                   user1.setLogOut(true);
-                                   AppDatabase.getInstance(context).userDao().updatePerson(user1);
-                               }
+                               AppDatabase.getInstance(context).userDao().delete(user);
                                Intent intent=new Intent(context, Login.class);
                                context.startActivity(intent);
                                ActivityCompat.finishAffinity(context);
@@ -71,6 +68,18 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
 
                        }
                    });
+               }else if(position==1)
+               {
+                   ((HomeActivity) context).getSupportFragmentManager().beginTransaction()
+                           .replace(R.id.container, new MyProfile())
+                           .commit();
+                   ((HomeActivity) context).getDrawer_layout().closeDrawers();
+               }else if(position==0)
+               {
+                   ((HomeActivity) context).getSupportFragmentManager().beginTransaction()
+                           .replace(R.id.container, new Home())
+                           .commit();
+                   ((HomeActivity) context).getDrawer_layout().closeDrawers();
                }
            }
        });

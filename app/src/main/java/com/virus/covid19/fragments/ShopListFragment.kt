@@ -44,8 +44,14 @@ class ShopListFragment : Fragment(),CardClickListener{
     {
         AppExecutors.getInstance().diskIO().execute(Runnable {
 
-            var user=AppDatabase.getInstance(activity!!).userDao().getUserInfo(false)
+            var user=AppDatabase.getInstance(activity!!).userDao().getUser()
             if(user!=null){
+                if(user.location.equals("Trichy",ignoreCase = true) || user.location.equals("Kumbakonam",ignoreCase = true)){
+
+                }else{
+                    user.location="all"
+
+                }
                 shopList = AppDatabase.getInstance(activity!!).shopsDao().loadAllByShop(shopName!!,user.location!!)
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     shopListAdapter=ShopListAdapter(shopList!!,this)

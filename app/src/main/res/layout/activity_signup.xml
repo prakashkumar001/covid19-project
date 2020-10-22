@@ -77,13 +77,6 @@
                     android:layout_centerHorizontal="true">
                 </com.virus.covid19.utilities.CircleImage>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    android:gravity="bottom"
-                    android:layout_marginTop="10dp"
-                    android:paddingTop="4dp"
-                    android:clipToPadding="false">
 
                     <EditText
                         android:id="@+id/name"
@@ -96,18 +89,6 @@
                         android:textColor="@android:color/black"
                         android:textColorHint="@android:color/darker_gray" />
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    android:gravity="bottom"
-                    android:layout_marginTop="10dp"
-                    android:paddingTop="4dp"
-                    android:clipToPadding="false"
-
-                    >
 
                     <EditText
                         android:id="@+id/email"
@@ -122,16 +103,8 @@
                         android:hint=" Email"
 
                         android:textColorHint="@android:color/darker_gray" />
-                </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    android:gravity="bottom"
-                    android:layout_marginTop="10dp"
-                    android:paddingTop="4dp"
-                    android:clipToPadding="false">
 
                     <EditText
                         android:id="@+id/phone"
@@ -147,15 +120,7 @@
                         android:textColorHint="@android:color/darker_gray"
 
                         />
-                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    android:gravity="bottom"
-                    android:layout_marginTop="10dp"
-                    android:paddingTop="4dp"
-                    android:clipToPadding="false">
 
                     <EditText
                         android:id="@+id/password"
@@ -170,15 +135,7 @@
                         android:hint=" Password"
 
                         android:textColorHint="@android:color/darker_gray" />
-                </com.google.android.material.textfield.TextInputLayout>
 
-                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:gravity="bottom"
-                    android:layout_marginTop="10dp"
-                    android:paddingTop="4dp"
-                    android:clipToPadding="false">
 
                     <EditText
                         android:id="@+id/address"
@@ -192,7 +149,6 @@
                         android:textColor="@android:color/black"
                         android:textColorHint="@android:color/darker_gray" />
 
-                </com.google.android.material.textfield.TextInputLayout>
 
 
                 <Button
