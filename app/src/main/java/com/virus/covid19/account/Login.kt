@@ -1,7 +1,9 @@
 package com.virus.covid19.account
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Base64
@@ -35,9 +37,12 @@ class Login :AppCompatActivity(), View.OnClickListener{
     var fbHelper: FacebookLoginHelper? = null
     var googleLoginHelper: GoogleLoginHelper? = null
     var TAG="Login"
+    private val sharedPrefFile = "Login"
+    var sharedPreferences: SharedPreferences?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        sharedPreferences=getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
         fb.setOnClickListener(this)
         google.setOnClickListener(this)
         signup.setOnClickListener(this)
@@ -145,8 +150,11 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 // start your next activity
                 startActivity(intent)*/
                 AppExecutors.getInstance().diskIO().execute(Runnable {
-                  var userInfo=user
-                    AppDatabase.getInstance(this).userDao().updatePerson(userInfo)
+                     user?.loggedOut=false
+                    AppDatabase.getInstance(this).userDao().updatePerson(user)
+                    val editor:SharedPreferences.Editor =  sharedPreferences!!.edit()
+                    editor.putInt("userId",user?.id!!)
+                    editor.commit()
                 })
                 showLocationDialog()
             }else{
@@ -184,17 +192,23 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 userInfo.profileImage="https://graph.facebook.com/"+fbInfo.id+"/picture?type=large"
                 userInfo.password = fbInfo.id
                 userInfo.isSocialLogin=true
+                userInfo.loggedOut=false
 
-                AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
-
+                var userId=AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
+                val editor:SharedPreferences.Editor =  sharedPreferences!!.edit()
+                editor.putInt("userId",userId.toInt())
+                editor.commit()
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     showLocationDialog()
 
                 })
             } else {
 
+                user.loggedOut=false
                 AppDatabase.getInstance(this).userDao().updatePerson(user)
-
+                val editor:SharedPreferences.Editor =  sharedPreferences!!.edit()
+                editor.putInt("userId",user.id)
+                editor.commit()
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     showLocationDialog()
 
@@ -214,15 +228,23 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 userInfo.profileImage=googleInfo?.profileUrl
                 userInfo.password = googleInfo?.accesstoken
                 userInfo.isSocialLogin=true
+                userInfo.loggedOut=false
 
-                AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
+                var userId=AppDatabase.getInstance(this).userDao().insertPerson(userInfo)
+                val editor:SharedPreferences.Editor =  sharedPreferences!!.edit()
+                editor.putInt("userId",userId.toInt())
+                editor.commit()
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     showLocationDialog()
 
                 })
             } else {
-                AppDatabase.getInstance(this).userDao().updatePerson(user)
+                user.loggedOut=false
 
+                AppDatabase.getInstance(this).userDao().updatePerson(user)
+                val editor:SharedPreferences.Editor =  sharedPreferences!!.edit()
+                editor.putInt("userId",user.id)
+                editor.commit()
                 AppExecutors.getInstance().mainThread().execute(Runnable {
                     showLocationDialog()
 
@@ -288,16 +310,24 @@ class Login :AppCompatActivity(), View.OnClickListener{
                                     "Baiu123@"
                                 )
                                 sender.sendMail(
-                                    "This is a test subject", "Your Password is : "+user.password,
+                                    "Password Reset", "Your Password is : "+user.password,
                                     "akshav00@gmail.com", user.email
                                 )
+                                AppExecutors.getInstance().mainThread().execute(Runnable {
+                                    Toast.makeText(Login@this,"Password sent your email address",Toast.LENGTH_SHORT).show()
+                                    dialog.dismiss()
+
+                                })
                             } catch (e: Exception) {
                                 Log.e("SendMail", e.message, e)
                             }
                         }).start()
                     }else
                     {
-                        Toast.makeText(this,"Please enter valid email",Toast.LENGTH_SHORT).show()
+                        AppExecutors.getInstance().mainThread().execute(Runnable {
+                            email.error="Invalid email address"
+
+                        })
                     }
                 })
         })

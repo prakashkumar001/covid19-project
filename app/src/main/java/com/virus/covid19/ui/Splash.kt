@@ -26,9 +26,22 @@ class Splash :AppCompatActivity(){
             // Start your app main activity
 
             AppExecutors.getInstance().diskIO().execute(Runnable {
-                var user=AppDatabase.getInstance(this).userDao().getUser()
-                if(user!=null){
+                var loggedOut=false
+                var user=AppDatabase.getInstance(this).userDao().loadAllUser()
+                if(user!=null && user.size>0){
+                    for(i in 0 until user.size){
+                        if(user[i]?.loggedOut==true){
+                            loggedOut=true
+                            break
+                        }
+                    }
+
+                    if(loggedOut){
+                        startActivity(Intent(this,Login::class.java))
+                    }else
+                    {
                         startActivity(Intent(this,HomeActivity::class.java))
+                    }
                 }else
                 {
                     startActivity(Intent(this,Login::class.java))

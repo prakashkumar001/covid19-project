@@ -30,7 +30,13 @@ class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
            startPayment()
         })
 
-            getTotalCart()
+            if(GlobalClass.cartList.size!=0){
+                getTotalCart()
+            }else
+            {
+                hideCart()
+
+            }
     }
 
     private fun startPayment() {
@@ -90,7 +96,13 @@ class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
     override fun addQtyToCart(product: Product,qty:Int) {
         product.qty=qty.toString()
         cart_view.adapter?.notifyDataSetChanged()
-        getTotalCart()
+        if(GlobalClass.cartList.size!=0){
+            getTotalCart()
+        }else
+        {
+            hideCart()
+
+        }
 
 
     }
@@ -98,18 +110,35 @@ class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
     override fun removeQtyFromCart(product: Product,qty:Int) {
         product.qty=qty.toString()
         cart_view.adapter?.notifyDataSetChanged()
-        getTotalCart()
+        if(GlobalClass.cartList.size!=0){
+            getTotalCart()
+        }else
+        {
+            hideCart()
+
+        }
 
     }
 
     override fun removeFromCart(product: Product) {
         GlobalClass.cartList.remove(product)
         cart_view.adapter?.notifyDataSetChanged()
-        getTotalCart()
+
+        if(GlobalClass.cartList.size!=0){
+            getTotalCart()
+        }else
+        {
+            hideCart()
+
+        }
     }
 
     fun getTotalCart()
     {
+        payment_details.visibility=View.VISIBLE
+        empty_cart.visibility=View.GONE
+        cart_view.visibility=View.VISIBLE
+
         var subtotalValue=0.0
         var  deliveryfeeValue=20.00
         for(i in 0 until GlobalClass.cartList.size){
@@ -121,5 +150,14 @@ class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
         totalAmount.text=String.format("%.2f", totalValue)
         subtotal.text=String.format("%.2f", subtotalValue)
         deliveryfee.text=String.format("%.2f", deliveryfeeValue)
+    }
+
+
+    fun hideCart()
+    {
+
+        payment_details.visibility=View.GONE
+        cart_view.visibility=View.GONE
+        empty_cart.visibility=View.VISIBLE
     }
 }

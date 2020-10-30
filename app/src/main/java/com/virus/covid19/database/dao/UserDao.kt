@@ -10,7 +10,7 @@ interface UserDao {
         fun loadAllUser(): List<User?>?
 
         @Insert
-        fun insertPerson(user: User?)
+        fun insertPerson(user: User?):Long
 
         @Update
         fun updatePerson(user: User?)
@@ -30,7 +30,7 @@ interface UserDao {
         @Query("SELECT * FROM user WHERE email = :email AND isSocialLogin = :issocial")
         fun getUserInfo(email: String,issocial: Boolean): User?
 
-        @Query("SELECT * FROM user")
-        fun getUser(): User?
+        @Query("SELECT * FROM user WHERE id= :id")
+        fun getUser(id: Int): User?
 
 }

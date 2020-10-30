@@ -2,7 +2,9 @@ package com.virus.covid19.home
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -31,10 +33,13 @@ class HomeActivity : AppCompatActivity() {
     var backPressedCount = 0
     var cartcount:CustomTextView?=null
      var drawer_layout:DrawerLayout?=null
-
+    private val sharedPrefFile = "Login"
+    var sharedPreferences: SharedPreferences?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        sharedPreferences = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+
         cartcount = findViewById(R.id.cartcount) as CustomTextView
         drawer_layout= findViewById(R.id.drawer_layout) as DrawerLayout
 
@@ -245,23 +250,23 @@ class HomeActivity : AppCompatActivity() {
 
 
             var physio=ArrayList<ShopDetail>()
-            hotel.add(ShopDetail("SRM Hospital","","all"))
-            hotel.add(ShopDetail("SRV Physio","","all"))
-            hotel.add(ShopDetail("Physiotheraphy and card","","all"))
+            physio.add(ShopDetail("SRM Hospital","","all"))
+            physio.add(ShopDetail("SRV Physio","","all"))
+            physio.add(ShopDetail("Physiotheraphy and card","","all"))
 
             /*Trichy*/
-            hotel.add(ShopDetail("Jeevam Physiotheraphy","","Trichy"))
-            hotel.add(ShopDetail("Kerala Kottakal Physiotheraphy","","Trichy"))
-            hotel.add(ShopDetail("CARE Physiotheraphist Center","","Trichy"))
-            hotel.add(ShopDetail("Mary Madha Physiotheraphy","","Trichy"))
-            hotel.add(ShopDetail("Ramya Clinic","","Trichy"))
+            physio.add(ShopDetail("Jeevam Physiotheraphy","","Trichy"))
+            physio.add(ShopDetail("Kerala Kottakal Physiotheraphy","","Trichy"))
+            physio.add(ShopDetail("CARE Physiotheraphist Center","","Trichy"))
+            physio.add(ShopDetail("Mary Madha Physiotheraphy","","Trichy"))
+            physio.add(ShopDetail("Ramya Clinic","","Trichy"))
 
             /*Kumbakonam*/
-            hotel.add(ShopDetail("Physio-Care Clinic","","Kumbakonam"))
-            hotel.add(ShopDetail("Sri Vinayaga Physio Clinic","","Kumbakonam"))
-            hotel.add(ShopDetail("Dr.ArulSelvi Clinic","","Kumbakonam"))
-            hotel.add(ShopDetail("Q-Spine Physio Clinic","","Kumbakonam"))
-            hotel.add(ShopDetail("Swathi Lab & Physiotheraphy","","Kumbakonam"))
+            physio.add(ShopDetail("Physio-Care Clinic","","Kumbakonam"))
+            physio.add(ShopDetail("Sri Vinayaga Physio Clinic","","Kumbakonam"))
+            physio.add(ShopDetail("Dr.ArulSelvi Clinic","","Kumbakonam"))
+            physio.add(ShopDetail("Q-Spine Physio Clinic","","Kumbakonam"))
+            physio.add(ShopDetail("Swathi Lab & Physiotheraphy","","Kumbakonam"))
 
 
             for(i in 0 until physio.size)
@@ -323,15 +328,13 @@ class HomeActivity : AppCompatActivity() {
     private fun setProfile()
     {
         AppExecutors.getInstance().diskIO().execute(Runnable {
-            var users=AppDatabase.getInstance(GlobalClass.sInstance).userDao().loadAllUser()
-            if(users?.size!!>0)
-            {
-                var user=users.get(0)
+            val userId = sharedPreferences?.getInt("userId",0)
+            var user=AppDatabase.getInstance(GlobalClass.sInstance).userDao().getUser(userId!!)
+
 AppExecutors.getInstance().mainThread().execute(Runnable {
     Glide.with(GlobalClass.getInstance()!!).asBitmap().load(user?.profileImage).placeholder(R.drawable.user_pic).error(R.drawable.user_pic).into(profileimage)
     name.text=user?.name
 })
-            }
         })
 
 
@@ -418,9 +421,9 @@ AppExecutors.getInstance().mainThread().execute(Runnable {
 
         /*Physiotherapist*/
         var physioteraphyPersons=ArrayList<Product>()
-        physioteraphyPersons.add(Product("Dr.AnbuRaj","1000.00","1","Available time slot- 2-4","Physiotherapist"))
-        physioteraphyPersons.add(Product("Dr.Raja","700.00","1","Available time slot- 4-6","Physiotherapist"))
-        physioteraphyPersons.add(Product("Dr.Maran","500.00","1","Available time slot- 9-11","Physiotherapist"))
+        physioteraphyPersons.add(Product("Dr.AnbuRaj","","1","Available time slot- 2-4","Physiotherapist"))
+        physioteraphyPersons.add(Product("Dr.Raja","","1","Available time slot- 4-6","Physiotherapist"))
+        physioteraphyPersons.add(Product("Dr.Maran","","1","Available time slot- 9-11","Physiotherapist"))
         for(i in 0 until physioteraphyPersons.size)
         {
             var product=physioteraphyPersons.get(i)

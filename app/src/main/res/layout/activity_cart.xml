@@ -12,6 +12,14 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <com.virus.covid19.textview.CustomTextView
+        android:id="@+id/empty_cart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Cart is Empty"
+        android:gravity="center"
+        android:textSize="30sp"
+        />
 
     <LinearLayout
         android:id="@+id/payment_details"

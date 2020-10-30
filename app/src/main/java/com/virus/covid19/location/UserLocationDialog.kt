@@ -3,6 +3,7 @@ package com.virus.covid19.location
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -53,19 +54,22 @@ class UserLocationDialog : DialogFragment,View.OnClickListener {
     var hello_user:AppCompatTextView?=null
     var next:AppCompatTextView?=null
     private val REQUEST_CODE = 200
-
+    private val sharedPrefFile = "Login"
+    var sharedPreferences: SharedPreferences?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
       var  rootView = inflater.inflate(R.layout.user_location_dialog, container, false)
+        sharedPreferences = activity!!.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
         tagGroup=rootView.findViewById(R.id.tagGroup)
         myLoc=rootView.findViewById(R.id.myloc)
         hello_user=rootView.findViewById(R.id.hello_user)
         next=rootView.findViewById(R.id.next)
 AppExecutors.getInstance().diskIO().execute(Runnable {
-    user=AppDatabase.getInstance(activity).userDao().getUser()
+    val userId = sharedPreferences?.getInt("userId",0)
+    user=AppDatabase.getInstance(activity).userDao().getUser(userId!!)
     AppExecutors.getInstance().mainThread().execute(Runnable {
         hello_user?.text="Hello "+user?.name
 

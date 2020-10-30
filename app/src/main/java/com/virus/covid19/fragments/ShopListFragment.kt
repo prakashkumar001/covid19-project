@@ -1,5 +1,7 @@
 package com.virus.covid19.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +23,8 @@ class ShopListFragment : Fragment(),CardClickListener{
     var shopListAdapter:ShopListAdapter?=null
     var shopName:String?=null
     var category:String?=null
+    private val sharedPrefFile = "Login"
+    var sharedPreferences: SharedPreferences?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,6 +32,8 @@ class ShopListFragment : Fragment(),CardClickListener{
     ): View? {
 
         val v: View = inflater.inflate(R.layout.fragment_shop_list, container, false)
+         sharedPreferences = activity!!.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+
         shopName=arguments?.getString("Title")
         v.recyclerView.layoutManager=LinearLayoutManager(activity)
         v.recyclerView.addItemDecoration(
@@ -44,7 +50,9 @@ class ShopListFragment : Fragment(),CardClickListener{
     {
         AppExecutors.getInstance().diskIO().execute(Runnable {
 
-            var user=AppDatabase.getInstance(activity!!).userDao().getUser()
+            val userId = sharedPreferences?.getInt("userId",0)
+            var user=AppDatabase.getInstance(activity!!).userDao().getUser(userId!!)
+
             if(user!=null){
                 if(user.location.equals("Trichy",ignoreCase = true) || user.location.equals("Kumbakonam",ignoreCase = true)){
 

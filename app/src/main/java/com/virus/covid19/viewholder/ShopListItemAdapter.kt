@@ -43,7 +43,7 @@ class ShopListItemAdapter (private val shopList:ArrayList<Product>,private val c
         viewHolder.itemView.product.text=FilterList.get(position).product_name
         viewHolder.itemView.offerprice.text=FilterList.get(position).price
         viewHolder.itemView.desc.text=FilterList.get(position).product_desc
-        if(FilterList.get(position).product_type.equals("Saloon",ignoreCase = true) || FilterList.get(position).product_type.equals("Physiotheraphy",ignoreCase = true)){
+        if(FilterList.get(position).product_type.equals("Saloon",ignoreCase = true) || FilterList.get(position).product_type.equals("Physiotherapist",ignoreCase = true)){
             viewHolder.itemView.addtocart.text="Book Now"
 
         }else
@@ -53,7 +53,7 @@ class ShopListItemAdapter (private val shopList:ArrayList<Product>,private val c
         }
 
         viewHolder.itemView.addtocart.setOnClickListener(View.OnClickListener {
-            if(FilterList.get(position).product_type.equals("Saloon",ignoreCase = true) || FilterList.get(position).product_type.equals("Physiotheraphy",ignoreCase = true)){
+            if(FilterList.get(position).product_type.equals("Saloon",ignoreCase = true) || FilterList.get(position).product_type.equals("Physiotherapist",ignoreCase = true)){
                 cartListener.showSaloonOrPhysioDialog()
             }else{
                 cartListener.addToCart(FilterList.get(position))
