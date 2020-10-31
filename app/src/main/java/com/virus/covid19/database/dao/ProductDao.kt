@@ -8,8 +8,8 @@ interface ProductDao {
     @Query("SELECT * FROM products ORDER BY ID")
     fun loadAllProduct(): List<Product>?
 
-    @Query("SELECT * FROM products WHERE product_type = :productType ORDER BY ID")
-    fun loadAllByProduct(productType:String): List<Product>?
+    @Query("SELECT * FROM products WHERE product_type = :productType AND product_shop = :shopName ORDER BY ID")
+    fun loadAllByProduct(productType:String,shopName:String): List<Product>?
 
     @Insert
     fun insertProduct(user: Product?)

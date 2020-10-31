@@ -9,10 +9,8 @@ import com.bumptech.glide.Glide
 import com.virus.covid19.R
 import com.virus.covid19.database.entities.Shops
 import com.virus.covid19.interfaces.CardClickListener
-import kotlinx.android.synthetic.main.drawer_item.view.*
 import kotlinx.android.synthetic.main.drawer_item.view.icon
 import kotlinx.android.synthetic.main.drawer_item.view.title
-import kotlinx.android.synthetic.main.item_shop.view.*
 
 class ShopListAdapter(private val shopList:List<Shops>,private val cardClickListener: CardClickListener):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var mRecyclerViewHolder: RecyclerView.ViewHolder? = null

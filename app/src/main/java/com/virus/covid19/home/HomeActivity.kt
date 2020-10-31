@@ -372,90 +372,345 @@ AppExecutors.getInstance().mainThread().execute(Runnable {
 
     }
 
-    fun addItemsToProduct()
-    {
+    fun addItemsToProduct() {
         /*Grocery*/
-        var groceryProducts=ArrayList<Product>()
-        groceryProducts.add(Product("Rice","45.00","1","Food rice","Grocery Shops"))
-        groceryProducts.add(Product("Maida","30.00","1","All Flour","Grocery Shops"))
-        groceryProducts.add(Product("Toor Dhal","20.00","1","Grams","Grocery Shops"))
-        groceryProducts.add(Product("Sugar","45.00","1","White sugar","Grocery Shops"))
-        groceryProducts.add(Product("Biscuit","20.00","1","Britania","Grocery Shops"))
-        for(i in 0 until groceryProducts.size)
-        {
-            var product=groceryProducts.get(i)
+        AppExecutors.getInstance().diskIO().execute(Runnable {
+            var shops = AppDatabase.getInstance(this).shopsDao().loadAllByShop("Grocery Shops")
+            if (shops!!.size > 0) {
+                for (i in 0 until shops.size) {
+                    var groceryProducts = ArrayList<Product>()
 
-            AppDatabase.getInstance(this).productDao().insertProduct(product)
+                    var shop = shops[i]
+                    groceryProducts.add(
+                        Product(
+                            "Rice",
+                            "45.00",
+                            "1",
+                            "Food rice",
+                            "Grocery Shops",
+                            shop.shopName
+                        )
+                    )
+                    groceryProducts.add(
+                        Product(
+                            "Maida",
+                            "30.00",
+                            "1",
+                            "All Flour",
+                            "Grocery Shops",
+                            shop.shopName
+                        )
+                    )
+                    groceryProducts.add(
+                        Product(
+                            "Toor Dhal",
+                            "20.00",
+                            "1",
+                            "Grams",
+                            "Grocery Shops",
+                            shop.shopName
+                        )
+                    )
+                    groceryProducts.add(
+                        Product(
+                            "Sugar",
+                            "45.00",
+                            "1",
+                            "White sugar",
+                            "Grocery Shops",
+                            shop.shopName
+                        )
+                    )
+                    groceryProducts.add(
+                        Product(
+                            "Biscuit",
+                            "20.00",
+                            "1",
+                            "Britania",
+                            "Grocery Shops",
+                            shop.shopName
+                        )
+                    )
+                    for (i in 0 until groceryProducts.size) {
+                        var product = groceryProducts.get(i)
 
-        }
+                        AppDatabase.getInstance(this).productDao().insertProduct(product)
+
+                    }
+                }
+
+            }
+
+        })
 
 
-        /*Medicals*/
-        var medicalProducts=ArrayList<Product>()
-        medicalProducts.add(Product("Betnovate Oinment","60.00","1","Skin oinment","Medicals"))
-        medicalProducts.add(Product("Paracetamol-350mg","3.00","1","Cold","Medicals"))
-        medicalProducts.add(Product("Vicks Vapourb","20.00","1","Cold","Medicals"))
-        medicalProducts.add(Product("CalPol-500mg","2.00","1","Fever","Medicals"))
-        medicalProducts.add(Product("Anacin-150mg","5.00","1","Cold","Medicals"))
-        for(i in 0 until medicalProducts.size)
-        {
-            var product=medicalProducts.get(i)
+        AppExecutors.getInstance().diskIO().execute(Runnable {
+            var shops =
+                AppDatabase.getInstance(this).shopsDao().loadAllByShop("Medicals")
+            if (shops!!.size > 0) {
+                for (i in 0 until shops.size) {
+                    var shop = shops[i]
 
-            AppDatabase.getInstance(this).productDao().insertProduct(product)
+                    /*Medicals*/
+                    var medicalProducts = ArrayList<Product>()
+                    medicalProducts.add(
+                        Product(
+                            "Betnovate Oinment",
+                            "60.00",
+                            "1",
+                            "Skin oinment",
+                            "Medicals",
+                            shop.shopName
+                        )
+                    )
+                    medicalProducts.add(
+                        Product(
+                            "Paracetamol-350mg",
+                            "3.00",
+                            "1",
+                            "Cold",
+                            "Medicals",
+                            shop.shopName
+                        )
+                    )
+                    medicalProducts.add(
+                        Product(
+                            "Vicks Vapourb",
+                            "20.00",
+                            "1",
+                            "Cold",
+                            "Medicals",
+                            shop.shopName
+                        )
+                    )
+                    medicalProducts.add(
+                        Product(
+                            "CalPol-500mg",
+                            "2.00",
+                            "1",
+                            "Fever",
+                            "Medicals",
+                            shop.shopName
+                        )
+                    )
+                    medicalProducts.add(
+                        Product(
+                            "Anacin-150mg",
+                            "5.00",
+                            "1",
+                            "Cold",
+                            "Medicals",
+                            shop.shopName
+                        )
+                    )
+                    for (i in 0 until medicalProducts.size) {
+                        var product = medicalProducts.get(i)
 
-        }
+                        AppDatabase.getInstance(this).productDao().insertProduct(product)
 
-        /*Saloon*/
-        var saloonPersons=ArrayList<Product>()
-        saloonPersons.add(Product("Akash","","1","Available time slot- 2-4","Saloon"))
-        saloonPersons.add(Product("Shiva","","1","Available time slot- 4-6","Saloon"))
-        saloonPersons.add(Product("Jeyaraj","","1","Available time slot- 9-11","Saloon"))
-        for(i in 0 until saloonPersons.size)
-        {
-            var product=saloonPersons.get(i)
-
-            AppDatabase.getInstance(this).productDao().insertProduct(product)
-
-        }
+                    }
+                }
+            }
+        })
 
 
-        /*Physiotherapist*/
-        var physioteraphyPersons=ArrayList<Product>()
-        physioteraphyPersons.add(Product("Dr.AnbuRaj","","1","Available time slot- 2-4","Physiotherapist"))
-        physioteraphyPersons.add(Product("Dr.Raja","","1","Available time slot- 4-6","Physiotherapist"))
-        physioteraphyPersons.add(Product("Dr.Maran","","1","Available time slot- 9-11","Physiotherapist"))
-        for(i in 0 until physioteraphyPersons.size)
-        {
-            var product=physioteraphyPersons.get(i)
+        AppExecutors.getInstance().diskIO().execute(Runnable {
+            var shops =
+                AppDatabase.getInstance(this).shopsDao().loadAllByShop("Saloon")
+            if (shops!!.size > 0) {
+                for (i in 0 until shops.size) {
+                    var shop = shops[i]
 
-            AppDatabase.getInstance(this).productDao().insertProduct(product)
+                    /*Saloon*/
+                    var saloonPersons = ArrayList<Product>()
+                    saloonPersons.add(
+                        Product(
+                            "Akash",
+                            "",
+                            "1",
+                            "Available time slot- 2-4",
+                            "Saloon",
+                            shop.shopName
+                        )
+                    )
+                    saloonPersons.add(
+                        Product(
+                            "Shiva",
+                            "",
+                            "1",
+                            "Available time slot- 4-6",
+                            "Saloon",
+                            shop.shopName
+                        )
+                    )
+                    saloonPersons.add(
+                        Product(
+                            "Jeyaraj",
+                            "",
+                            "1",
+                            "Available time slot- 9-11",
+                            "Saloon",
+                            shop.shopName
+                        )
+                    )
+                    for (i in 0 until saloonPersons.size) {
+                        var product = saloonPersons.get(i)
 
-        }
+                        AppDatabase.getInstance(this).productDao().insertProduct(product)
+
+                    }
+                }
+            }
+        })
 
 
-        /*Hotels*/
-        var hotelItems=ArrayList<Product>()
-        hotelItems.add(Product("Parotta","10.00","1","Parotta","Hotels"))
-        hotelItems.add(Product("Dosa","25.00","1","Dosa with chutney","Hotels"))
-        hotelItems.add(Product("Idli","8.00","1","Idli with chutney","Hotels"))
-        for(i in 0 until hotelItems.size)
-        {
-            var product=hotelItems.get(i)
-            AppDatabase.getInstance(this).productDao().insertProduct(product)
 
-        }
+        AppExecutors.getInstance().diskIO().execute(Runnable {
+            var shops =
+                AppDatabase.getInstance(this).shopsDao().loadAllByShop("Physiotherapist")
+            if (shops!!.size > 0) {
+                for (i in 0 until shops.size) {
+                    var shop = shops[i]
 
-        /*Vegetables*/
-        var vegetablesItems=ArrayList<Product>()
-        vegetablesItems.add(Product("Carrot-100g","10.00","1","Carrot with 100 grams","Vegetable Shops"))
-        vegetablesItems.add(Product("Brinjal-100g","25.00","1","Brinjal with 100 grams","Vegetable Shops"))
-        vegetablesItems.add(Product("Drumstick-1","8.00","1","1 Drumstick","Vegetable Shops"))
-        for(i in 0 until vegetablesItems.size)
-        {
-            var product=vegetablesItems.get(i)
-            AppDatabase.getInstance(this).productDao().insertProduct(product)
+                    /*Physiotherapist*/
+                    var physioteraphyPersons = ArrayList<Product>()
+                    physioteraphyPersons.add(
+                        Product(
+                            "Dr.AnbuRaj",
+                            "",
+                            "1",
+                            "Available time slot- 2-4",
+                            "Physiotherapist",
+                            shop.shopName
+                        )
+                    )
+                    physioteraphyPersons.add(
+                        Product(
+                            "Dr.Raja",
+                            "",
+                            "1",
+                            "Available time slot- 4-6",
+                            "Physiotherapist",
+                            shop.shopName
+                        )
+                    )
+                    physioteraphyPersons.add(
+                        Product(
+                            "Dr.Maran",
+                            "",
+                            "1",
+                            "Available time slot- 9-11",
+                            "Physiotherapist",
+                            shop.shopName
+                        )
+                    )
+                    for (i in 0 until physioteraphyPersons.size) {
+                        var product = physioteraphyPersons.get(i)
 
-        }
+                        AppDatabase.getInstance(this).productDao().insertProduct(product)
+
+                    }
+                }
+            }
+        })
+
+
+
+        AppExecutors.getInstance().diskIO().execute(Runnable {
+            var shops =
+                AppDatabase.getInstance(this).shopsDao().loadAllByShop("Hotels")
+            if (shops!!.size > 0) {
+                for (i in 0 until shops.size) {
+                    var shop = shops[i]
+
+                    /*Hotels*/
+                    var hotelItems = ArrayList<Product>()
+                    hotelItems.add(
+                        Product(
+                            "Parotta",
+                            "10.00",
+                            "1",
+                            "Parotta",
+                            "Hotels",
+                            shop.shopName
+                        )
+                    )
+                    hotelItems.add(
+                        Product(
+                            "Dosa",
+                            "25.00",
+                            "1",
+                            "Dosa with chutney",
+                            "Hotels",
+                            shop.shopName
+                        )
+                    )
+                    hotelItems.add(
+                        Product(
+                            "Idli",
+                            "8.00",
+                            "1",
+                            "Idli with chutney",
+                            "Hotels",
+                            shop.shopName
+                        )
+                    )
+                    for (i in 0 until hotelItems.size) {
+                        var product = hotelItems.get(i)
+                        AppDatabase.getInstance(this).productDao().insertProduct(product)
+
+                    }
+                }
+            }
+        })
+
+
+        AppExecutors.getInstance().diskIO().execute(Runnable {
+            var shops =
+                AppDatabase.getInstance(this).shopsDao().loadAllByShop("Vegetable Shops")
+            if (shops!!.size > 0) {
+                for (i in 0 until shops.size) {
+                    var shop = shops[i]
+                    /*Vegetables*/
+                    var vegetablesItems = ArrayList<Product>()
+                    vegetablesItems.add(
+                        Product(
+                            "Carrot-100g",
+                            "10.00",
+                            "1",
+                            "Carrot with 100 grams",
+                            "Vegetable Shops",
+                            shop.shopName
+                        )
+                    )
+                    vegetablesItems.add(
+                        Product(
+                            "Brinjal-100g",
+                            "25.00",
+                            "1",
+                            "Brinjal with 100 grams",
+                            "Vegetable Shops",
+                            shop.shopName
+                        )
+                    )
+                    vegetablesItems.add(
+                        Product(
+                            "Drumstick-1",
+                            "8.00",
+                            "1",
+                            "1 Drumstick",
+                            "Vegetable Shops",
+                            shop.shopName
+                        )
+                    )
+                    for (i in 0 until vegetablesItems.size) {
+                        var product = vegetablesItems.get(i)
+                        AppDatabase.getInstance(this).productDao().insertProduct(product)
+
+                    }
+                }
+            }
+        })
     }
 
     fun animateCartItem()

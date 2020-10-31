@@ -95,7 +95,7 @@ class ShopFragment : Fragment(),addCartListener {
     private fun getShopList(v:View)
     {
         AppExecutors.getInstance().diskIO().execute(Runnable {
-            productList = AppDatabase.getInstance(activity!!).productDao().loadAllByProduct(category!!)
+            productList = AppDatabase.getInstance(activity!!).productDao().loadAllByProduct(category!!,shopName!!)
             AppExecutors.getInstance().mainThread().execute(Runnable {
                 productListAdapter=ShopListItemAdapter(ArrayList<Product>(productList!!),this)
                 v.shopItemList.adapter=productListAdapter
@@ -109,7 +109,15 @@ class ShopFragment : Fragment(),addCartListener {
         var ProductAvailable=containsProduct(GlobalClass.cartList,product.id)
         if(ProductAvailable?.isProductAvailable!!)
         {
-         Toast.makeText(activity,"Product Already added , Please add quantity in Cart Page",Toast.LENGTH_SHORT).show()
+            var isSameShopProductAvailable=iscontainsDifferentShopProduct(GlobalClass.cartList,product)
+
+            if(isSameShopProductAvailable?.isProductAvailable!!){
+                Toast.makeText(activity,"Product Already added , Please add quantity in Cart Page",Toast.LENGTH_SHORT).show()
+            }else
+            {
+                clearCartDialog()
+
+            }
         }else
         {
             if(GlobalClass.cartList.size>0){
@@ -124,9 +132,10 @@ class ShopFragment : Fragment(),addCartListener {
                     set.setTarget((activity as HomeActivity).cartcount)
                     (activity as HomeActivity).cartcount?.setText(GlobalClass.cartList.size.toString())
                     set.start()
+
                 }else
                 {
-                    Toast.makeText(activity,"Please Clear the cart and add the product",Toast.LENGTH_SHORT).show()
+                    clearCartDialog()
                 }
             }else
             {
@@ -162,7 +171,7 @@ class ShopFragment : Fragment(),addCartListener {
         product: Product
     ): ProductAvailable? {
         for (item in list) {
-            if (item.product_type.equals(product.product_type)) {
+            if (item.product_shop.equals(product.product_shop)) {
                 val index = list.indexOf(item)
                 return ProductAvailable(true, index)
             }
@@ -185,6 +194,29 @@ class ShopFragment : Fragment(),addCartListener {
             startActivity(intent)
             ActivityCompat.finishAffinity(activity!!)
         })
+
+        dialog.show()
+    }
+
+     fun clearCartDialog(){
+        var dialog: Dialog =  Dialog(activity!!);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.cleart_cart_dialog);
+
+        val dialogButton: CustomTextView = dialog.findViewById<View>(R.id.ok) as CustomTextView
+         val cancelButton: CustomTextView = dialog.findViewById<View>(R.id.close) as CustomTextView
+        dialogButton.setOnClickListener(View.OnClickListener {
+            dialog.dismiss()
+            GlobalClass.cartList.clear();
+            var intent= Intent(activity,HomeActivity::class.java)
+            startActivity(intent)
+            ActivityCompat.finishAffinity(activity!!)
+        })
+         cancelButton.setOnClickListener(View.OnClickListener {
+             dialog.dismiss()
+         })
 
         dialog.show()
     }

@@ -10,13 +10,16 @@ class Product constructor() {
         price: String?,
         qty: String?,
         product_desc: String?,
-        product_type: String?
+        product_type: String?,
+        product_shop: String?
     ):this() {
         this.product_name = product_name
         this.price = price
         this.qty = qty
         this.product_desc = product_desc
         this.product_type = product_type
+        this.product_shop = product_shop
+
     }
 
 
@@ -29,6 +32,8 @@ class Product constructor() {
     var product_desc: String? = null
     var product_type: String? = null
     var product_image: String? = null
+    var product_shop: String? = null
+
 
 
 }

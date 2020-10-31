@@ -1,6 +1,8 @@
 package com.virus.covid19.payment
 
 import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,6 +13,9 @@ import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import com.virus.covid19.R
 import com.virus.covid19.application.GlobalClass
+import com.virus.covid19.database.AppDatabase
+import com.virus.covid19.database.AppExecutors
+import com.virus.covid19.database.entities.OrderHistory
 import com.virus.covid19.database.entities.Product
 import com.virus.covid19.interfaces.CartListener
 import com.virus.covid19.viewholder.CartViewAdapter
@@ -18,11 +23,15 @@ import kotlinx.android.synthetic.main.activity_cart.*
 import org.json.JSONObject
 
 class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
-
+    var totalAmt:String?=null
+    private val sharedPrefFile = "Login"
+    var sharedPreferences: SharedPreferences?=null
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
-        Checkout.preload(applicationContext)
+            sharedPreferences = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+
+            Checkout.preload(applicationContext)
 
         cart_view.layoutManager= LinearLayoutManager(this)
         cart_view.adapter=CartViewAdapter(this,GlobalClass.cartList,this)
@@ -71,6 +80,8 @@ class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
     override fun onPaymentError(errorCode: Int, response: String?) {
         try{
             Toast.makeText(this,"Payment failed $errorCode \n $response", Toast.LENGTH_LONG).show()
+            saveOrder("fail")
+
         }catch (e: Exception){
             Log.e("Exception in onPaymentSuccess","Exception in onPaymentSuccess", e)
         }
@@ -79,6 +90,7 @@ class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
     override fun onPaymentSuccess(razorpayPaymentId: String?) {
         try{
             Toast.makeText(this,"Payment Successful $razorpayPaymentId", Toast.LENGTH_LONG).show()
+            saveOrder("success")
         }catch (e: Exception){
             Log.e("Exception in onPaymentSuccess","Exception in onPaymentSuccess", e)
         }
@@ -150,6 +162,8 @@ class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
         totalAmount.text=String.format("%.2f", totalValue)
         subtotal.text=String.format("%.2f", subtotalValue)
         deliveryfee.text=String.format("%.2f", deliveryfeeValue)
+
+        totalAmt=totalAmount.text.toString()
     }
 
 
@@ -159,5 +173,20 @@ class CartPage :AppCompatActivity(), PaymentResultListener,CartListener {
         payment_details.visibility=View.GONE
         cart_view.visibility=View.GONE
         empty_cart.visibility=View.VISIBLE
+    }
+
+    fun saveOrder(status:String){
+        AppExecutors.getInstance().diskIO().execute(Runnable {
+            val userId = sharedPreferences?.getInt("userId",0)
+            var shopName:String?=null
+            var shopId:String?=null
+
+            for(i in 0 until GlobalClass.cartList.size){
+                shopName=GlobalClass.cartList.get(0).product_shop
+                shopId=GlobalClass.cartList.get(0).shop_id
+            }
+            var orderHistory:OrderHistory=OrderHistory(shopId,userId,shopName,totalAmt,GlobalClass.cartList.size.toString(),status)
+            AppDatabase.getInstance(this).orderHistoryDao().insertOrder(orderHistory)
+        })
     }
 }

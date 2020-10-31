@@ -23,6 +23,7 @@ import com.virus.covid19.database.AppDatabase;
 import com.virus.covid19.database.AppExecutors;
 import com.virus.covid19.database.entities.User;
 import com.virus.covid19.fragments.Home;
+import com.virus.covid19.fragments.MyOrders;
 import com.virus.covid19.home.HomeActivity;
 import com.virus.covid19.model.DrawerItem;
 
@@ -84,6 +85,11 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
                {
                    ((HomeActivity) context).getSupportFragmentManager().beginTransaction()
                            .replace(R.id.container, new Home())
+                           .commit();
+                   ((HomeActivity) context).getDrawer_layout().closeDrawers();
+               }else if(position==2){
+                   ((HomeActivity) context).getSupportFragmentManager().beginTransaction()
+                           .replace(R.id.container, new MyOrders())
                            .commit();
                    ((HomeActivity) context).getDrawer_layout().closeDrawers();
                }

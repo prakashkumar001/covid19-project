@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="3dp"
+    android:background="@android:color/transparent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.virus.covid19.textview.CustomTextView
+                android:layout_width="match_parent"
+                android:text="Please clear the cart product and continue"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_height="wrap_content"/>
+
+            <com.virus.covid19.textview.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:text="You are adding different products from different stores"
+
+                />
+
+            <com.virus.covid19.textview.CustomTextView
+                android:id="@+id/ok"
+                android:layout_width="match_parent"
+                android:text="Clear Cart"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_bg"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:layout_height="40dp"/>
+
+            <com.virus.covid19.textview.CustomTextView
+                android:id="@+id/close"
+                android:layout_width="match_parent"
+                android:text="Cancel"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/cancel_border"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                android:layout_height="40dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

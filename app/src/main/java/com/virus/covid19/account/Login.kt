@@ -149,13 +149,23 @@ class Login :AppCompatActivity(), View.OnClickListener{
                /* val intent = Intent(this@Login, HomeActivity::class.java)
                 // start your next activity
                 startActivity(intent)*/
+
                 AppExecutors.getInstance().diskIO().execute(Runnable {
-                     user?.loggedOut=false
-                    AppDatabase.getInstance(this).userDao().updatePerson(user)
-                    val editor:SharedPreferences.Editor =  sharedPreferences!!.edit()
-                    editor.putInt("userId",user?.id!!)
-                    editor.commit()
+                   var listUser= AppDatabase.getInstance(this).userDao().loadAllUser()
+                    if(listUser!=null && listUser.size>0){
+                        for(i in 0 until listUser!!.size){
+                            var usr=listUser[i]
+                            usr?.loggedOut=false
+                            AppDatabase.getInstance(this).userDao().updatePerson(usr)
+                        }
+                    }
+
                 })
+
+
+                val editor:SharedPreferences.Editor =  sharedPreferences!!.edit()
+                editor.putInt("userId",user?.id!!)
+                editor.commit()
                 showLocationDialog()
             }else{
                 AppExecutors.getInstance().mainThread().execute(Runnable {
@@ -215,6 +225,18 @@ class Login :AppCompatActivity(), View.OnClickListener{
                 })
             }
 
+            AppExecutors.getInstance().diskIO().execute(Runnable {
+                var listUser= AppDatabase.getInstance(this).userDao().loadAllUser()
+                if(listUser!=null && listUser.size>0){
+                    for(i in 0 until listUser!!.size){
+                        var usr=listUser[i]
+                        usr?.loggedOut=false
+                        AppDatabase.getInstance(this).userDao().updatePerson(usr)
+                    }
+                }
+
+            })
+
         } else if (obj is GoogleInfo) {
             googleInfo = obj as GoogleInfo
 
@@ -250,6 +272,18 @@ class Login :AppCompatActivity(), View.OnClickListener{
 
                 })
             }
+
+            AppExecutors.getInstance().diskIO().execute(Runnable {
+                var listUser= AppDatabase.getInstance(this).userDao().loadAllUser()
+                if(listUser!=null && listUser.size>0){
+                    for(i in 0 until listUser!!.size){
+                        var usr=listUser[i]
+                        usr?.loggedOut=false
+                        AppDatabase.getInstance(this).userDao().updatePerson(usr)
+                    }
+                }
+
+            })
 
         } else {
             return
