@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:background="?attr/selectableItemBackground">
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icon"
         android:layout_width="24dp"
-        android:src="@drawable/cart_icon"
-        android:layout_height="24dp" />
+        app:srcCompat="@drawable/ic_home"
+        android:layout_height="24dp"
+        tools:ignore="VectorDrawableCompat" />
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:text="HAHAH"
+        android:layout_gravity="center"
         android:layout_marginLeft="16dp"/>
 </LinearLayout>

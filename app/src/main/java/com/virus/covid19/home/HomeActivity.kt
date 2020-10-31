@@ -83,10 +83,10 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getNavigationList()
     {
-        navigationList.add(DrawerItem("Home",R.drawable.cart_icon))
-        navigationList.add(DrawerItem("My Profile",R.drawable.cart_icon))
-        navigationList.add(DrawerItem("My Orders",R.drawable.cart_icon))
-        navigationList.add(DrawerItem("Log Out",R.drawable.cart_icon))
+        navigationList.add(DrawerItem("Home",R.drawable.ic_home))
+        navigationList.add(DrawerItem("My Profile",R.drawable.ic_profile))
+        navigationList.add(DrawerItem("My Orders",R.drawable.ic_orders))
+        navigationList.add(DrawerItem("Log Out",R.drawable.ic_logout))
 
 
 

@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:gravity="left|center"
-        android:text="Covid19"
+        android:text="@string/app_name"
         android:textSize="16sp"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@android:color/white"
@@ -31,15 +31,6 @@ android:layout_height="match_parent"
     android:gravity="center|end"
     android:orientation="horizontal"
 android:layout_marginRight="10dip">
-
-
-
-    <ImageView
-        android:id="@+id/home"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:src="@drawable/ic_home_black_24dp"
-        />
 
 
 <RelativeLayout

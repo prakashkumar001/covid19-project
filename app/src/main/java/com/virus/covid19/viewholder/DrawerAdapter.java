@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.virus.covid19.R;
@@ -51,6 +52,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
 
       // holder.title.setTypeface(fonts);
        holder.title.setText(drawerList.get(position).getTitle());
+       holder.icon.setImageResource(drawerList.get(position).getIcon());
        holder.itemView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -78,20 +80,20 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
                }else if(position==1)
                {
                    ((HomeActivity) context).getSupportFragmentManager().beginTransaction()
-                           .replace(R.id.container, new MyProfile())
+                           .add(R.id.container, new MyProfile())
                            .commit();
-                   ((HomeActivity) context).getDrawer_layout().closeDrawers();
+                   ((HomeActivity) context).getDrawer_layout().closeDrawer(GravityCompat.START);
                }else if(position==0)
                {
                    ((HomeActivity) context).getSupportFragmentManager().beginTransaction()
-                           .replace(R.id.container, new Home())
+                           .add(R.id.container, new Home())
                            .commit();
-                   ((HomeActivity) context).getDrawer_layout().closeDrawers();
+                   ((HomeActivity) context).getDrawer_layout().closeDrawer(GravityCompat.START);
                }else if(position==2){
                    ((HomeActivity) context).getSupportFragmentManager().beginTransaction()
-                           .replace(R.id.container, new MyOrders())
+                           .add(R.id.container, new MyOrders())
                            .commit();
-                   ((HomeActivity) context).getDrawer_layout().closeDrawers();
+                   ((HomeActivity) context).getDrawer_layout().closeDrawer(GravityCompat.START);
                }
            }
        });
