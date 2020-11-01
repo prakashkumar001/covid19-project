@@ -70,8 +70,9 @@ class ShopFragment : Fragment(),addCartListener {
 
 
                     })*/
-                Glide.with(activity!!).asBitmap().load(shop?.shopImageUrl).fitCenter().into(v.bg)
-                v.shopItemList.alpha=0.8f
+                /*Glide.with(activity!!).asBitmap().load(shop?.shopImageUrl).fitCenter().into(v.bg)
+                v.shopItemList.alpha=0.8f*/
+                v.bg.setBackgroundColor(Color.parseColor(shop?.shopImageUrl))
             })
         })
 
