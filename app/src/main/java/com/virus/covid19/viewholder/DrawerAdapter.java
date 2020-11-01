@@ -80,18 +80,18 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
                }else if(position==1)
                {
                    ((HomeActivity) context).getSupportFragmentManager().beginTransaction()
-                           .add(R.id.container, new MyProfile())
+                           .replace(R.id.container, new MyProfile())
                            .commit();
                    ((HomeActivity) context).getDrawer_layout().closeDrawer(GravityCompat.START);
                }else if(position==0)
                {
                    ((HomeActivity) context).getSupportFragmentManager().beginTransaction()
-                           .add(R.id.container, new Home())
+                           .replace(R.id.container, new Home())
                            .commit();
                    ((HomeActivity) context).getDrawer_layout().closeDrawer(GravityCompat.START);
                }else if(position==2){
                    ((HomeActivity) context).getSupportFragmentManager().beginTransaction()
-                           .add(R.id.container, new MyOrders())
+                           .replace(R.id.container, new MyOrders())
                            .commit();
                    ((HomeActivity) context).getDrawer_layout().closeDrawer(GravityCompat.START);
                }

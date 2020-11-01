@@ -28,7 +28,7 @@ class MyOrders : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v: View = inflater.inflate(R.layout.fragment_shop_list, container, false)
+        val v: View = inflater.inflate(R.layout.fragment_myorders, container, false)
         sharedPreferences = activity?.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
 
         v.recyclerView.layoutManager= LinearLayoutManager(activity)
