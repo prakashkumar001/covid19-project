@@ -34,11 +34,17 @@ class OrderHistoryAdapter(private val orderHistoryList:List<OrderHistory>):Recyc
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         var viewHolder=holder as OrderHistoryViewHolder
         viewHolder.itemView.title.text=orderHistoryList.get(position).shop_name
-        viewHolder.itemView.amt.text=orderHistoryList.get(position).totalAmount
         if(orderHistoryList.get(position).status.equals("success",ignoreCase = true)){
+            viewHolder.itemView.amt.text=orderHistoryList.get(position).totalAmount
             viewHolder.itemView.amt.textColor= Color.GREEN
-        }else{
+        }else if(orderHistoryList.get(position).status.equals("Booked",ignoreCase = true)){
+            viewHolder.itemView.amt.text="Booked"
+            viewHolder.itemView.amt.textColor= Color.GREEN
+        }else
+        {
+            viewHolder.itemView.amt.text=orderHistoryList.get(position).totalAmount
             viewHolder.itemView.amt.textColor= Color.RED
+
         }
 
 

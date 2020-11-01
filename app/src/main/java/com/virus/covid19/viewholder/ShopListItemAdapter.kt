@@ -54,7 +54,7 @@ class ShopListItemAdapter (private val shopList:ArrayList<Product>,private val c
 
         viewHolder.itemView.addtocart.setOnClickListener(View.OnClickListener {
             if(FilterList.get(position).product_type.equals("Saloon",ignoreCase = true) || FilterList.get(position).product_type.equals("Physiotherapist",ignoreCase = true)){
-                cartListener.showSaloonOrPhysioDialog()
+                cartListener.showSaloonOrPhysioDialog(FilterList.get(position).product_shop,FilterList.get(position).shop_id)
             }else{
                 cartListener.addToCart(FilterList.get(position))
             }

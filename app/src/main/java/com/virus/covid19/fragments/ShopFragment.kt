@@ -3,7 +3,9 @@ package com.virus.covid19.fragments
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -22,6 +24,7 @@ import com.virus.covid19.R
 import com.virus.covid19.application.GlobalClass
 import com.virus.covid19.database.AppDatabase
 import com.virus.covid19.database.AppExecutors
+import com.virus.covid19.database.entities.OrderHistory
 import com.virus.covid19.database.entities.Product
 import com.virus.covid19.home.HomeActivity
 import com.virus.covid19.interfaces.addCartListener
@@ -37,7 +40,8 @@ class ShopFragment : Fragment(),addCartListener {
     var productListAdapter: ShopListItemAdapter?=null
     var shopName:String?=null
     var category:String?=null
-
+    private val sharedPrefFile = "Login"
+    var sharedPreferences: SharedPreferences?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +50,8 @@ class ShopFragment : Fragment(),addCartListener {
         val v: View = inflater.inflate(R.layout.fragment_shop, container, false)
         shopName=arguments?.getString("Title")
         category=arguments?.getString("Category")
+        sharedPreferences = activity?.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+
         AppExecutors.getInstance().diskIO().execute(Runnable {
             var shop = AppDatabase.getInstance(activity).shopsDao().getShopByName(shopName!!)
             AppExecutors.getInstance().mainThread().execute(Runnable {
@@ -179,7 +185,7 @@ class ShopFragment : Fragment(),addCartListener {
         return ProductAvailable(false, -1)
     }
 
-    override fun showSaloonOrPhysioDialog(){
+    override fun showSaloonOrPhysioDialog(shopName:String?,shopId:String?){
        var dialog: Dialog =  Dialog(activity!!);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
@@ -188,11 +194,17 @@ class ShopFragment : Fragment(),addCartListener {
 
         val dialogButton: CustomTextView = dialog.findViewById<View>(R.id.close) as CustomTextView
         dialogButton.setOnClickListener(View.OnClickListener {
-            dialog.dismiss()
-            GlobalClass.cartList.clear();
-            var intent= Intent(activity,HomeActivity::class.java)
-            startActivity(intent)
-            ActivityCompat.finishAffinity(activity!!)
+            AppExecutors.getInstance().diskIO().execute(Runnable {
+                val userId = sharedPreferences?.getInt("userId",0)
+                var orderHistory: OrderHistory = OrderHistory(shopId,userId,shopName,"",GlobalClass.cartList.size.toString(),"Booked")
+                AppDatabase.getInstance(activity).orderHistoryDao().insertOrder(orderHistory)
+                dialog.dismiss()
+                GlobalClass.cartList.clear();
+                var intent= Intent(activity,HomeActivity::class.java)
+                startActivity(intent)
+                ActivityCompat.finishAffinity(activity!!)
+            })
+
         })
 
         dialog.show()
