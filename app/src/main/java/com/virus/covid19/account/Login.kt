@@ -340,8 +340,8 @@ class Login :AppCompatActivity(), View.OnClickListener{
                         Thread(Runnable {
                             try {
                                 val sender = MailSender(
-                                    "akshav00@gmail.com",
-                                    "Baiu123@"
+                                    "akshav001@gmail.com",
+                                    "xxxxx"
                                 )
                                 sender.sendMail(
                                     "Password Reset", "Your Password is : "+user.password,
